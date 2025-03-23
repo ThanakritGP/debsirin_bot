@@ -147,7 +147,10 @@ client.on(Events.InteractionCreate, async interaction => {
     await interaction.reply('บอตเทพศิรินทร์ พัฒนาโดย PingzGP DSA139 IEP💚💛');
   }
 
+  if (!interaction.isCommand()) return;
+
   if (interaction.commandName === 'room-number') {
+    await interaction.deferReply();
     const embed = new EmbedBuilder()
       .setTitle('🔢 หมายเลขห้องเรียนโรงเรียนเทพศิรินทร์')
       .setDescription(
