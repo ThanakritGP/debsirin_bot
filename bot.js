@@ -125,7 +125,7 @@ client.on(Events.InteractionCreate, async interaction => {
   }
 
   if (interaction.commandName === 'about-debsirin-bot') {
-    await interaction.reply('บอตเทพศิรินทร์ สร้างโดย PingzGP DSA139 IEP');
+    await interaction.reply('บอตเทพศิรินทร์ พัฒนาโดย PingzGP DSA139 IEP💚💛');
   }
 });
 
