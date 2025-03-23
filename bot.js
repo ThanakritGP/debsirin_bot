@@ -45,7 +45,7 @@ const commands = [{
   {
     name: 'contact',
     description: 'Get our contact informationℹ️',
-  }
+  },
 ];
 
 // Register commands using REST API
