@@ -18,8 +18,8 @@ app.listen(port, () => {
 // Define the commands
 const commands = [
   {
-    name: 'ping',
-    description: 'Replies with Pong!',
+    name: 'room-number',
+    description: 'Room number🔢',
   },
   {
     name: 'menu',
@@ -126,6 +126,10 @@ client.on(Events.InteractionCreate, async interaction => {
 
   if (interaction.commandName === 'about-debsirin-bot') {
     await interaction.reply('บอตเทพศิรินทร์ พัฒนาโดย PingzGP DSA139 IEP💚💛');
+  }
+
+  if (interaction.commandName === 'room-number') {
+    await interaction.reply('เลขห้องเรียน เลขตัวหน้าแทนตึก เลขตัวถัดมา คือ เลขชั้น และเลขสุดท้าย คือ เลขห้อง เช่น 152 ตึกเยาวมาลย์ ชั้น 5 ห้อง 2');
   }
 });
 
