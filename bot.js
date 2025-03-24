@@ -178,25 +178,25 @@ client.on(Events.InteractionCreate, async interaction => {
         new ButtonBuilder()
         .setLabel('งานประชาสัมพันธ์ โรงเรียนเทพศิรินทร์')
         .setStyle(ButtonStyle.Link)
-        .setURL('https://www.facebook.com/PRdebsirin') // เปลี่ยนเป็นลิงก์จริง
-        .setEmoji('📘'), // ใช้ไอคอน Facebook
+        .setURL('https://www.facebook.com/PRdebsirin') 
+        .setEmoji('📘'), 
 
         new ButtonBuilder()
         .setLabel('คณะกรรมการบริหารนักเรียนเทพศิรินทร์ - Debsirin Student Committee')
         .setStyle(ButtonStyle.Link)
-        .setURL('https://www.facebook.com/DebsirinSC') // เปลี่ยนเป็นลิงก์จริง
+        .setURL('https://www.facebook.com/DebsirinSC') 
         .setEmoji('📘'),
 
         new ButtonBuilder()
         .setLabel('งานประชาสัมพันธ์ โรงเรียนเทพศิรินทร์')
         .setStyle(ButtonStyle.Link)
-        .setURL('https://www.instagram.com/pr.debsirin_official/') // เปลี่ยนเป็นลิงก์จริง
-        .setEmoji('📷'), // ใช้ไอคอน Instagram
+        .setURL('https://www.instagram.com/pr.debsirin_official/') 
+        .setEmoji('📷'), 
 
         new ButtonBuilder()
         .setLabel('คณะกรรมการบริหารนักเรียนเทพศิรินทร์ - Debsirin Student Committee')
         .setStyle(ButtonStyle.Link)
-        .setURL('https://www.instagram.com/debsirinsc/') // เปลี่ยนเป็นลิงก์จริง
+        .setURL('https://www.instagram.com/debsirinsc/') 
         .setEmoji('📷')
       );
 
