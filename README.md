@@ -6,8 +6,8 @@ A bot developed used in Debsirin Commuity Server
 
 ## Developer
 
-- [@thanakritgp](https://github.com/ThanakritGP)
-- 𝗣𝗶𝗻𝗴𝘇𝗚𝗣 𝗗𝗦𝗔𝟭𝟯𝟵 [ปิงแวรค์]
+- 
+- 𝗣𝗶𝗻𝗴𝘇𝗚𝗣 𝗗𝗦𝗔𝟭𝟯𝟵 [ปิงแวรค์] [@thanakritgp](https://github.com/ThanakritGP)
 𝗠𝗮𝗱𝗲 𝘄𝗶𝘁𝗵💚💛
 
 ## Developed in
