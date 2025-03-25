@@ -46,6 +46,10 @@ const commands = [{
     name: 'contact',
     description: 'Get our contact information',
   },
+  {
+    name: 'debmedia',
+    description: 'Download pictures here📷',
+  },
 ];
 
 // Register commands using REST API
@@ -202,6 +206,22 @@ client.on(Events.InteractionCreate, async interaction => {
 
     await interaction.reply({
       content: '📩 **Contact Us!**',
+      components: [row]
+    });
+  }
+  if (interaction.commandName === 'debmedia') {
+    const row = new ActionRowBuilder()
+      .addComponents(
+        new ButtonBuilder()
+        .setCustomId('debmedia_button') // ปุ่มที่ไม่ใช่ลิงก์ต้องใช้ Custom ID
+        .setLabel('Debmedia')
+        .setStyle(ButtonStyle.Primary)
+        .setURL('https://sites.google.com/debsirin.ac.th/debmedia/debmedia') 
+        .setEmoji('📷'), 
+      );
+
+    await interaction.reply({
+      content: '📩 **Download pictures here!**',
       components: [row]
     });
   }
