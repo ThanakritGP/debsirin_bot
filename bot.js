@@ -40,11 +40,11 @@ const commands = [{
   },
   {
     name: 'about-debsirin-bot',
-    description: 'Information about DS-BOTℹ️',
+    description: 'Information about DS-BOT',
   },
   {
     name: 'contact',
-    description: 'Get our contact informationℹ️',
+    description: 'Get our contact information',
   },
 ];
 
