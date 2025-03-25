@@ -6,11 +6,13 @@ A bot developed used in Debsirin Commuity Server
 
 ## Developer
 
-- 
 - 𝗣𝗶𝗻𝗴𝘇𝗚𝗣 𝗗𝗦𝗔𝟭𝟯𝟵 [ปิงแวรค์] [@thanakritgp](https://github.com/ThanakritGP)
 𝗠𝗮𝗱𝗲 𝘄𝗶𝘁𝗵💚💛
 
 ## Developed in
+<p align="left">
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/javascript-colored.svg" width="36" height="36" alt="JavaScript" /></a>
+</p>
 
 
 
