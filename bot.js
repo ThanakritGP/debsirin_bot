@@ -183,25 +183,25 @@ client.on(Events.InteractionCreate, async interaction => {
         .setLabel('งานประชาสัมพันธ์ โรงเรียนเทพศิรินทร์')
         .setStyle(ButtonStyle.Link)
         .setURL('https://www.facebook.com/PRdebsirin') 
-        .setEmoji('📘'), 
+        .setEmoji('<:Facebook:1354294377911947274>'), 
 
         new ButtonBuilder()
         .setLabel('คณะกรรมการบริหารนักเรียนเทพศิรินทร์ - Debsirin Student Committee')
         .setStyle(ButtonStyle.Link)
         .setURL('https://www.facebook.com/DebsirinSC') 
-        .setEmoji('📘'),
+        .setEmoji('<:Facebook:1354294377911947274>'),
 
         new ButtonBuilder()
         .setLabel('งานประชาสัมพันธ์ โรงเรียนเทพศิรินทร์')
         .setStyle(ButtonStyle.Link)
         .setURL('https://www.instagram.com/pr.debsirin_official/') 
-        .setEmoji('📷'), 
+        .setEmoji('<:Instagram:1354294380684513382>'), 
 
         new ButtonBuilder()
         .setLabel('คณะกรรมการบริหารนักเรียนเทพศิรินทร์ - Debsirin Student Committee')
         .setStyle(ButtonStyle.Link)
         .setURL('https://www.instagram.com/debsirinsc/') 
-        .setEmoji('📷')
+        .setEmoji('<:Instagram:1354294380684513382>')
       );
 
     await interaction.reply({
