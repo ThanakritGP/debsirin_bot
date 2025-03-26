@@ -213,11 +213,10 @@ client.on(Events.InteractionCreate, async interaction => {
     const row = new ActionRowBuilder()
       .addComponents(
         new ButtonBuilder()
-        .setCustomId('debmedia_button') // ปุ่มที่ไม่ใช่ลิงก์ต้องใช้ Custom ID
         .setLabel('Debmedia')
-        .setStyle(ButtonStyle.Primary)
+        .setStyle(ButtonStyle.Link)
         .setURL('https://sites.google.com/debsirin.ac.th/debmedia/debmedia') 
-        .setEmoji('📷'), 
+        .setEmoji('<:debmedia:1354297615105134766> '), 
       );
 
     await interaction.reply({
