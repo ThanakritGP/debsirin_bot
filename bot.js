@@ -68,14 +68,14 @@ const commands = [{
 // Register commands using REST API
 const rest = new REST({
   version: '10'
-}).setToken(process.env.DISCORD_TOKEN);
+}).setToken(process.env.TOKEN);
 
 (async () => {
   try {
     console.log('Started refreshing application (/) commands.');
 
     // Register commands to the Discord API
-    await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), {
+    await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
       body: commands
     });
 
@@ -95,7 +95,7 @@ const menu = [
   "ข้าวผัด", "ผัดกะเพรา", "ผัดกะเพรากุ้ง", "ผัดผักบุ้ง", "ไข่เจียว",
   "ลาบหมู", "น้ำตกหมู", "ไข่พะโล้", "เบอร์เกอร์", "พิซซ่า",
   "หมูกรอบผัดพริกเกลือ", "ไก่ทอด", "ราเมง", "ไข่ดาว", "นม",
-  "KFC", "McDonalds", "กุ้งอบวุ้นเส้น", "ไข่กระทะ",
+  "KFC", "McDonalds", "Nobicha", "กุ้งอบวุ้นเส้น", "ไข่กระทะ",
   "ข้าวมันไก่", "พาสต้า", "สปาเก็ตตี้คาโบนารา", "สปาเก็ตตี้ผัดขี้เมา",
   "ส้มตำ", "คัตสึด้ง", "ลาซานญ่า", "ทงคัตสึ", "เกี้ยวซ่า",
   "ทาโกะยากิ", "กุ้งเทมปุระ", "ยากิโทริ", "ข้าวขาหมู", "ข้าวแกงกะหรี่",
@@ -242,24 +242,11 @@ client.on(Events.InteractionCreate, async interaction => {
   }
   
   if (interaction.commandName === 'verify') {
-    const studentID = interaction.options.getString('student_id'); // รับหมายเลขประจำตัวจากผู้ใช้
-    
-    // เรียกใช้ฟังก์ชัน verifyStudentID
-    const response = await verifyStudentID(studentID);
-  
-    if (response.found) {
-      await interaction.reply({
-        content: `เลขประจำตัว ${studentID} มีในระบบ และยืนยันตัวตนเรียบร้อย`,
-        embeds: [new EmbedBuilder().setDescription('ยืนยันตัวตนเรียบร้อย')],
-      });
-    } else {
-      await interaction.reply({
-        content: `ไม่พบเลขประจำตัว ${studentID} ในระบบ`,
-        embeds: [new EmbedBuilder().setDescription('ไม่พบหมายเลขประจำตัวในระบบ')],
-      });
-    }
+    const studentID = interaction.options.getString('student_id'); // รับ ID จากคำสั่ง
+    const result = await verifyStudentID(studentID); // เรียกใช้ฟังก์ชัน verifyStudentID
+    await interaction.reply(result);
   }
 });
 
 // Login the bot
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.TOKEN);
