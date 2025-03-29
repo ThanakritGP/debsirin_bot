@@ -1,6 +1,7 @@
-import { google } from 'googleapis';
-import dotenv from 'dotenv';
-import { OAuth2Client } from 'google-auth-library';  // เพิ่มการใช้งาน OAuth2Client
+import { google } from "googleapis";
+import dotenv from "dotenv";
+import { OAuth2Client } from "google-auth-library"; // ใช้งาน OAuth2Client
+
 dotenv.config();
 
 // ตั้งค่า OAuth2 Client
@@ -10,46 +11,62 @@ const oauth2Client = new OAuth2Client(
   process.env.REDIRECT_URI
 );
 
+// ตั้งค่า Credentials ด้วย Refresh Token
+oauth2Client.setCredentials({
+  refresh_token: process.env.REFRESH_TOKEN,
+});
+
+// ฟังก์ชันอัปเดต Access Token อัตโนมัติ
+const getAccessToken = async () => {
+  try {
+    const { token } = await oauth2Client.getAccessToken();
+    return token;
+  } catch (error) {
+    console.error("Error refreshing access token:", error);
+    return null;
+  }
+};
+
 // ฟังก์ชันตรวจสอบหมายเลขประจำตัวนักเรียน
 export const verifyStudentID = async (studentID) => {
-  // ใช้ OAuth2 token
-  const token = process.env.OAUTH_ACCESS_TOKEN;  // Access token ที่ได้รับจากขั้นตอน OAuth2
-  oauth2Client.setCredentials({ access_token: token });
-
-  const sheets = google.sheets({ version: 'v4', auth: oauth2Client });
-  const spreadsheetId = process.env.SPREADSHEET_ID;
-
   try {
-    // ดึงข้อมูลของทุกชีตใน Spreadsheet
-    const sheetMetadata = await sheets.spreadsheets.get({
-      spreadsheetId,
-    });
+    const accessToken = await getAccessToken();
+    if (!accessToken) {
+      return "ไม่สามารถรับ Access Token ได้";
+    }
 
-    const sheetNames = sheetMetadata.data.sheets.map(sheet => sheet.properties.title); // ดึงชื่อทุกชีตในไฟล์
+    oauth2Client.setCredentials({ access_token: accessToken });
+
+    const sheets = google.sheets({ version: "v4", auth: oauth2Client });
+    const spreadsheetId = process.env.SPREADSHEET_ID;
+
+    // ดึงข้อมูลของทุกชีตใน Spreadsheet
+    const sheetMetadata = await sheets.spreadsheets.get({ spreadsheetId });
+    const sheetNames = sheetMetadata.data.sheets.map(
+      (sheet) => sheet.properties.title
+    );
 
     // ค้นหาหมายเลขนักเรียนในทุกชีต
     for (const sheetName of sheetNames) {
-      const range = `${sheetName}!A:D`;  // ค้นหาช่วงข้อมูลในแต่ละชีต (คอลัมน์ A ถึง D)
-      
-      // ดึงข้อมูลจาก Google Sheets ของแต่ละชีต
+      const range = `${sheetName}!A:D`; // ค้นหาในคอลัมน์ A ถึง D
       const response = await sheets.spreadsheets.values.get({
         spreadsheetId,
         range,
       });
 
-      const rows = response.data.values;
+      const rows = response.data.values || [];
 
-      // ค้นหาหมายเลขนักเรียนในคอลัมน์ที่ 4 (คอลัมน์ D)
+      // ค้นหาหมายเลขนักเรียนในคอลัมน์ที่ 4 (D)
       for (const row of rows) {
-        if (row[3] === studentID) {
+        if (row.length >= 4 && row[3] === studentID) {
           return `เลขประจำตัว ${studentID} มีในระบบ และยืนยันตัวตนเรียบร้อย`;
         }
       }
     }
 
-    return 'ไม่พบเลขประจำตัวในระบบ';
+    return "ไม่พบเลขประจำตัวในระบบ";
   } catch (error) {
-    console.error('Error accessing Google Sheets:', error);
-    return 'ไม่สามารถตรวจสอบหมายเลขประจำตัวได้';
+    console.error("Error accessing Google Sheets:", error);
+    return "ไม่สามารถตรวจสอบหมายเลขประจำตัวได้";
   }
 };
