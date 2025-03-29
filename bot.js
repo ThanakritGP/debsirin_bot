@@ -68,7 +68,7 @@ const commands = [{
 // Register commands using REST API
 const rest = new REST({
   version: '10'
-}).setToken(process.env.TOKEN);
+}).setToken(process.env.DISCORD_TOKEN);
 
 (async () => {
   try {
