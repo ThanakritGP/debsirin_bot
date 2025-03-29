@@ -11,7 +11,6 @@ import {
   Routes
 } from 'discord.js';
 import dotenv from 'dotenv';
-import { verifyStudentID } from './verify.js'; // นำเข้าฟังก์ชัน verifyStudentID
 
 dotenv.config();
 
@@ -51,18 +50,6 @@ const commands = [{
     name: 'debmedia',
     description: 'Download pictures here📷',
   },
-  {
-    name: 'verify',
-    description: 'Verify student ID',
-    options: [
-      {
-        name: 'student_id',
-        description: 'Enter student ID to verify',
-        type: 3, // TYPE_STRING
-        required: true
-      }
-    ]
-  },
 ];
 
 // Register commands using REST API
@@ -94,7 +81,7 @@ const client = new Client({
 const menu = [
   "ข้าวผัด", "ผัดกะเพรา", "ผัดกะเพรากุ้ง", "ผัดผักบุ้ง", "ไข่เจียว",
   "ลาบหมู", "น้ำตกหมู", "ไข่พะโล้", "เบอร์เกอร์", "พิซซ่า",
-  "หมูกรอบผัดพริกเกลือ", "ไก่ทอด", "ราเมง", "ไข่ดาว", "นม",
+  "หมูกรอบผัดพริกเกลือ", "ไก่ทอด", "ราเมง", "ไข่ดาว",
   "KFC", "McDonalds", "Nobicha", "กุ้งอบวุ้นเส้น", "ไข่กระทะ",
   "ข้าวมันไก่", "พาสต้า", "สปาเก็ตตี้คาโบนารา", "สปาเก็ตตี้ผัดขี้เมา",
   "ส้มตำ", "คัตสึด้ง", "ลาซานญ่า", "ทงคัตสึ", "เกี้ยวซ่า",
@@ -241,11 +228,6 @@ client.on(Events.InteractionCreate, async interaction => {
     });
   }
   
-  if (interaction.commandName === 'verify') {
-    const studentID = interaction.options.getString('student_id'); // รับ ID จากคำสั่ง
-    const result = await verifyStudentID(studentID); // เรียกใช้ฟังก์ชัน verifyStudentID
-    await interaction.reply(result);
-  }
 });
 
 // Login the bot
