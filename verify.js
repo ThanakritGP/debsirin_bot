@@ -1,9 +1,9 @@
 import { google } from 'googleapis';
 import dotenv from 'dotenv';
-import { OAuth2Client } from 'google-auth-library'; // นำเข้า OAuth2Client
+import { OAuth2Client } from 'google-auth-library';  // เพิ่มการใช้งาน OAuth2Client
 dotenv.config();
 
-// สร้างตัวแปร OAuth2Client สำหรับยืนยันตัวตน
+// ตั้งค่า OAuth2 Client
 const oauth2Client = new OAuth2Client(
   process.env.CLIENT_ID,
   process.env.CLIENT_SECRET,
@@ -12,18 +12,14 @@ const oauth2Client = new OAuth2Client(
 
 // ฟังก์ชันตรวจสอบหมายเลขประจำตัวนักเรียน
 export const verifyStudentID = async (studentID) => {
-  // ใช้ OAuth 2.0 token สำหรับการเชื่อมต่อกับ Google Sheets API
-  const apiKey = process.env.GOOGLE_API_KEY;  // อาจจะยังต้องการ API key สำหรับการเข้าถึงบางฟังก์ชัน
-  const spreadsheetId = process.env.SPREADSHEET_ID;
+  // ใช้ OAuth2 token
+  const token = process.env.OAUTH_ACCESS_TOKEN;  // Access token ที่ได้รับจากขั้นตอน OAuth2
+  oauth2Client.setCredentials({ access_token: token });
+
   const sheets = google.sheets({ version: 'v4', auth: oauth2Client });
+  const spreadsheetId = process.env.SPREADSHEET_ID;
 
   try {
-    // ตรวจสอบว่า oauth2Client มี token แล้วหรือไม่
-    const tokens = oauth2Client.credentials;
-    if (!tokens.access_token) {
-      throw new Error('Missing OAuth2 access token');
-    }
-
     // ดึงข้อมูลของทุกชีตใน Spreadsheet
     const sheetMetadata = await sheets.spreadsheets.get({
       spreadsheetId,
