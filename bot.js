@@ -242,11 +242,24 @@ client.on(Events.InteractionCreate, async interaction => {
   }
   
   if (interaction.commandName === 'verify') {
-    const studentID = interaction.options.getString('student_id'); // รับ ID จากคำสั่ง
-    const result = await verifyStudentID(studentID); // เรียกใช้ฟังก์ชัน verifyStudentID
-    await interaction.reply(result);
+    const studentID = interaction.options.getString('student_id'); // รับหมายเลขประจำตัวจากผู้ใช้
+    
+    // เรียกใช้ฟังก์ชัน verifyStudentID
+    const response = await verifyStudentID(studentID);
+  
+    if (response.found) {
+      await interaction.reply({
+        content: `เลขประจำตัว ${studentID} มีในระบบ และยืนยันตัวตนเรียบร้อย`,
+        embeds: [new EmbedBuilder().setDescription('ยืนยันตัวตนเรียบร้อย')],
+      });
+    } else {
+      await interaction.reply({
+        content: `ไม่พบเลขประจำตัว ${studentID} ในระบบ`,
+        embeds: [new EmbedBuilder().setDescription('ไม่พบหมายเลขประจำตัวในระบบ')],
+      });
+    }
   }
 });
 
 // Login the bot
-client.login(process.env.TOKEN);
+client.login(process.env.DISCORD_TOKEN);

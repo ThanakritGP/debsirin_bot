@@ -6,9 +6,9 @@ dotenv.config();
 
 // ตั้งค่า OAuth2 Client
 const oauth2Client = new OAuth2Client(
-  process.env.CLIENT_ID,
-  process.env.CLIENT_SECRET,
-  process.env.REDIRECT_URI
+  process.env.GOOGLE_CLIENT_ID, // ใช้ CLIENT_ID ของ Google
+  process.env.GOOGLE_CLIENT_SECRET, // ใช้ CLIENT_SECRET ของ Google
+  process.env.REDIRECT_URI // URL redirect ที่ได้ตั้งใน Google Cloud Console
 );
 
 // ตั้งค่า Credentials ด้วย Refresh Token
@@ -59,14 +59,23 @@ export const verifyStudentID = async (studentID) => {
       // ค้นหาหมายเลขนักเรียนในคอลัมน์ที่ 4 (D)
       for (const row of rows) {
         if (row.length >= 4 && row[3] === studentID) {
-          return `เลขประจำตัว ${studentID} มีในระบบ และยืนยันตัวตนเรียบร้อย`;
+          return {
+            found: true,
+            message: `เลขประจำตัว ${studentID} มีในระบบ และยืนยันตัวตนเรียบร้อย`,
+          };
         }
       }
     }
 
-    return "ไม่พบเลขประจำตัวในระบบ";
+    return {
+      found: false,
+      message: "ไม่พบเลขประจำตัวในระบบ",
+    };
   } catch (error) {
     console.error("Error accessing Google Sheets:", error);
-    return "ไม่สามารถตรวจสอบหมายเลขประจำตัวได้";
+    return {
+      found: false,
+      message: "ไม่สามารถตรวจสอบหมายเลขประจำตัวได้",
+    };
   }
 };
