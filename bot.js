@@ -11,6 +11,7 @@ import {
   Routes
 } from 'discord.js';
 import dotenv from 'dotenv';
+import './verify.js';  // เชื่อม verify.js เข้ามา
 
 dotenv.config();
 
@@ -49,6 +50,18 @@ const commands = [{
   {
     name: 'debmedia',
     description: 'Download pictures here📷',
+  },
+  {
+    name: 'verify',
+    description: 'Verify student ID',
+    options: [
+      {
+        name: 'student_id',
+        description: 'Enter student ID to verify',
+        type: 3, // TYPE_STRING
+        required: true
+      }
+    ]
   },
 ];
 
@@ -211,6 +224,7 @@ client.on(Events.InteractionCreate, async interaction => {
       components: [row]
     });
   }
+
   if (interaction.commandName === 'debmedia') {
     const row = new ActionRowBuilder()
       .addComponents(
@@ -225,6 +239,13 @@ client.on(Events.InteractionCreate, async interaction => {
       content: '📩 **Download pictures here!**',
       components: [row]
     });
+  }
+  
+  if (interaction.commandName === 'verify') {
+    const studentID = interaction.options.getString('student_id'); // รับ ID จากคำสั่ง
+    const response = await verifyStudentID(studentID); // ใช้ฟังก์ชันใน verify.js
+    
+    await interaction.reply({ content: response });
   }
 });
 
