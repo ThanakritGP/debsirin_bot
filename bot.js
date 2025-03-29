@@ -75,7 +75,7 @@ const rest = new REST({
     console.log('Started refreshing application (/) commands.');
 
     // Register commands to the Discord API
-    await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
+    await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID), {
       body: commands
     });
 
@@ -95,7 +95,7 @@ const menu = [
   "ข้าวผัด", "ผัดกะเพรา", "ผัดกะเพรากุ้ง", "ผัดผักบุ้ง", "ไข่เจียว",
   "ลาบหมู", "น้ำตกหมู", "ไข่พะโล้", "เบอร์เกอร์", "พิซซ่า",
   "หมูกรอบผัดพริกเกลือ", "ไก่ทอด", "ราเมง", "ไข่ดาว", "นม",
-  "KFC", "McDonalds", "Nobicha", "กุ้งอบวุ้นเส้น", "ไข่กระทะ",
+  "KFC", "McDonalds", "กุ้งอบวุ้นเส้น", "ไข่กระทะ",
   "ข้าวมันไก่", "พาสต้า", "สปาเก็ตตี้คาโบนารา", "สปาเก็ตตี้ผัดขี้เมา",
   "ส้มตำ", "คัตสึด้ง", "ลาซานญ่า", "ทงคัตสึ", "เกี้ยวซ่า",
   "ทาโกะยากิ", "กุ้งเทมปุระ", "ยากิโทริ", "ข้าวขาหมู", "ข้าวแกงกะหรี่",
