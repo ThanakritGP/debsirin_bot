@@ -11,7 +11,7 @@ import {
   Routes
 } from 'discord.js';
 import dotenv from 'dotenv';
-import './verify.js';  // เชื่อม verify.js เข้ามา
+import { verifyStudentID } from './verify.js'; // นำเข้าฟังก์ชัน verifyStudentID
 
 dotenv.config();
 
@@ -243,9 +243,8 @@ client.on(Events.InteractionCreate, async interaction => {
   
   if (interaction.commandName === 'verify') {
     const studentID = interaction.options.getString('student_id'); // รับ ID จากคำสั่ง
-    const response = await verifyStudentID(studentID); // ใช้ฟังก์ชันใน verify.js
-    
-    await interaction.reply({ content: response });
+    const result = await verifyStudentID(studentID); // เรียกใช้ฟังก์ชัน verifyStudentID
+    await interaction.reply(result);
   }
 });
 
