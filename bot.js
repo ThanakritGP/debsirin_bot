@@ -314,7 +314,7 @@ client.on(Events.InteractionCreate, async interaction => {
     return;
   }
 
-  const welcomeMessage = `(TEST) ยินดีต้อนรับ ${member.user} เข้าสู่ Debsirin Community ขอให้คุณอ่านกฎ และยืนยันตัวตนก่อนเข้าใช้งานนะครับ`;
+  const welcomeMessage = `(TEST) ยินดีต้อนรับ ${member.user} สู่ดิสคอร์ดออฟฟิเชียลของโรงเรียนเทพศิรินทร์ ขอให้คุณอ่านกฎ และยืนยันตัวตนก่อนเข้าใช้งานนะครับ`;
   try {
     await channel.send(welcomeMessage);
     await interaction.reply({ content: 'Test welcome message sent!', ephemeral: true });
