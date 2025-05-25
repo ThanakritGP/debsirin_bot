@@ -55,7 +55,7 @@ const commands = [{
     description: 'สุ่มคำคมบาดใจเด็ก ทศ ไม่ง้อหญิง',
   },
   {
-    name: 'welcome-test',
+    name: 'test-welcome',
     description: 'test welcome message',
   },
 ];
