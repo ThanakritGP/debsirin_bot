@@ -304,6 +304,26 @@ client.on(Events.InteractionCreate, async interaction => {
     });
   }
 
+  if (interaction.commandName === 'test-welcome') { // สมมติว่าสร้าง command ชื่อ test-welcome
+  const member = interaction.member; // เอา member ที่รันคำสั่ง
+  const welcomeChannelId = "1294949467505823758";
+  const channel = member.guild.channels.cache.get(welcomeChannelId);
+
+  if (!channel || !channel.isTextBased()) {
+    await interaction.reply({ content: 'Cannot find or send to welcome channel.', ephemeral: true });
+    return;
+  }
+
+  const welcomeMessage = `(TEST) ยินดีต้อนรับ ${member.user} เข้าสู่ Debsirin Community ขอให้คุณอ่านกฎ และยืนยันตัวตนก่อนเข้าใช้งานนะครับ`;
+  try {
+    await channel.send(welcomeMessage);
+    await interaction.reply({ content: 'Test welcome message sent!', ephemeral: true });
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({ content: 'Failed to send test welcome message.', ephemeral: true });
+  }
+}
+
 });
 
 // Login the bot
