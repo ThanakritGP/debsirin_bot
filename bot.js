@@ -54,10 +54,6 @@ const commands = [{
     name: 'ds-quotes',
     description: 'สุ่มคำคมบาดใจเด็ก ทศ ไม่ง้อหญิง',
   },
-  {
-    name: 'test-welcome',
-    description: 'test welcome message',
-  },
 ];
 
 // Register commands using REST API
@@ -177,39 +173,6 @@ client.on(Events.ClientReady, readyClient => {
   console.log(`Logged in as ${readyClient.user.tag}!`);
 });
 
-// Guild Member Add Event (Welcome Message)
-client.on(Events.GuildMemberAdd, async member => {
-  // แก้ไข ID ของช่องนี้ให้เป็น ID ของช่องที่คุณต้องการให้ส่งข้อความต้อนรับ
-  const welcomeChannelId = "1294949467505823758"; // <--- ★★★ ใส่ ID ช่องตรงนี้ ★★★
-
-  const channel = member.guild.channels.cache.get(welcomeChannelId);
-  if (!channel) {
-    console.log(`[WARNING] Welcome channel with ID ${welcomeChannelId} not found in guild ${member.guild.name}.`);
-    // คุณอาจจะต้องการให้บอทส่งข้อความไปยังช่อง default ของ server หากหาช่องที่ระบุไม่เจอ
-    // const systemChannel = member.guild.systemChannel;
-    // if (systemChannel) {
-    //   await systemChannel.send(`Welcome ${member.user}! (Could not find designated welcome channel)`);
-    // }
-    return;
-  }
-
-  // ตรวจสอบว่าเป็น Text Channel หรือไม่
-  if (!channel.isTextBased()) {
-    console.log(`[WARNING] Channel "${channel.name}" (ID: ${welcomeChannelId}) in guild ${member.guild.name} is not a text-based channel.`);
-    return;
-  }
-
-  // ${member.user} จะเป็นการ mention หรือแท็กผู้ใช้โดยอัตโนมัติ
-  // ถ้าต้องการแค่ชื่อเฉยๆ ไม่ต้องแท็ก ให้ใช้ member.user.username หรือ member.displayName
-  const welcomeMessage = `ยินดีต้อนรับ ${member.user} เข้าสู่ Debsirin Community ขอให้คุณ ${member.user} อ่านกฎ และยืนยันตัวตนก่อนเข้าใช้งานนะครับ`;
-
-  try {
-    await channel.send(welcomeMessage);
-    console.log(`Sent welcome message to ${member.user.tag} in #${channel.name} in ${member.guild.name}.`);
-  } catch (error) {
-    console.error(`Could not send welcome message to #${channel.name} in ${member.guild.name}:`, error);
-  }
-});
 
 // Interaction Create Event
 client.on(Events.InteractionCreate, async interaction => {
@@ -308,44 +271,6 @@ client.on(Events.InteractionCreate, async interaction => {
     });
   }
 
-  if (interaction.commandName === 'test-welcome') {
-    const member = interaction.member;
-    const welcomeChannelId = "1294949467505823758"; // ID ของช่องที่จะ *ส่ง* ข้อความต้อนรับไป
-    const channelToSendTo = member.guild.channels.cache.get(welcomeChannelId);
-
-    if (!channelToSendTo || !channelToSendTo.isTextBased()) {
-      await interaction.reply({
-        content: 'Cannot find or send to welcome channel.',
-        ephemeral: true
-      });
-      return;
-    }
-
-    // --- ส่วนที่แก้ไข ---
-    // ใส่ ID ของช่อง #VERIFY ของคุณตรงนี้
-    const verifyChannelActualId = "1356492832210288774"; // ★★★ ใส่ ID ของช่อง #VERIFY ตรงนี้ ★★★
-
-    // ใส่ ID ของช่องที่มี "กฎ" ของคุณตรงนี้
-    const rulesChannelActualId = "1294951649822900295"; // <--- ★★★ ใส่ ID ของช่อง "กฎ" ตรงนี้ ★★★
-
-    // ปรับแก้ข้อความต้อนรับ
-    const welcomeMessage = `(TEST) ยินดีต้อนรับ ${member.user} สู่ดิสคอร์ดออฟฟิเชียลของโรงเรียนเทพศิรินทร์ ขอให้คุณตรวจสอบ Server Guide และอ่าน<#${rulesChannelActualId}>ให้เรียบร้อย สำหรับนักเรียนโรงเรียนเทพศิรินทร์ กรุณายืนยันตัวตนที่ช่อง <#${verifyChannelActualId}>`;
-    // --- สิ้นสุดส่วนที่แก้ไข ---
-
-    try {
-      await channelToSendTo.send(welcomeMessage);
-      await interaction.reply({
-        content: 'Test welcome message sent!',
-        ephemeral: true
-      });
-    } catch (error) {
-      console.error(error);
-      await interaction.reply({
-        content: 'Failed to send test welcome message.',
-        ephemeral: true
-      });
-    }
-  }
 
 });
 
