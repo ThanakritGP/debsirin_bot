@@ -54,6 +54,10 @@ const commands = [{
     name: 'ds-quotes',
     description: 'สุ่มคำคมบาดใจเด็ก ทศ ไม่ง้อหญิง',
   },
+  {
+    name: 'welcome-test',
+    description: 'test welcome message',
+  },
 ];
 
 // Register commands using REST API
