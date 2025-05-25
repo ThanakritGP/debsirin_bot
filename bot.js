@@ -322,7 +322,7 @@ client.on(Events.InteractionCreate, async interaction => {
     const verifyChannelActualId = "1356492832210288774"; // ★★★ ใส่ ID ของช่อง #VERIFY ตรงนี้ ★★★
 
     // ใส่ ID ของช่องที่มี "กฎ" ของคุณตรงนี้
-    const rulesChannelActualId = "1347554267015155763"; // <--- ★★★ ใส่ ID ของช่อง "กฎ" ตรงนี้ ★★★
+    const rulesChannelActualId = "1294951649822900295"; // <--- ★★★ ใส่ ID ของช่อง "กฎ" ตรงนี้ ★★★
 
     // ปรับแก้ข้อความต้อนรับ
     const welcomeMessage = `(TEST) ยินดีต้อนรับ ${member.user} สู่ดิสคอร์ดออฟฟิเชียลของโรงเรียนเทพศิรินทร์ ขอให้คุณตรวจสอบ Server Guide และอ่าน<#${rulesChannelActualId}>ให้เรียบร้อย สำหรับนักเรียนโรงเรียนเทพศิรินทร์ กรุณายืนยันตัวตนที่ช่อง <#${verifyChannelActualId}>`;
