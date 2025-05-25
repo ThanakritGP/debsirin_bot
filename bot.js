@@ -191,8 +191,8 @@ client.on(Events.GuildMemberAdd, async member => {
 
   // ตรวจสอบว่าเป็น Text Channel หรือไม่
   if (!channel.isTextBased()) {
-      console.log(`[WARNING] Channel "${channel.name}" (ID: ${welcomeChannelId}) in guild ${member.guild.name} is not a text-based channel.`);
-      return;
+    console.log(`[WARNING] Channel "${channel.name}" (ID: ${welcomeChannelId}) in guild ${member.guild.name} is not a text-based channel.`);
+    return;
   }
 
   // ${member.user} จะเป็นการ mention หรือแท็กผู้ใช้โดยอัตโนมัติ
@@ -304,25 +304,44 @@ client.on(Events.InteractionCreate, async interaction => {
     });
   }
 
-  if (interaction.commandName === 'test-welcome') { // สมมติว่าสร้าง command ชื่อ test-welcome
-  const member = interaction.member; // เอา member ที่รันคำสั่ง
-  const welcomeChannelId = "1294949467505823758";
-  const channel = member.guild.channels.cache.get(welcomeChannelId);
+  if (interaction.commandName === 'test-welcome') {
+    const member = interaction.member;
+    const welcomeChannelId = "1294949467505823758"; // ID ของช่องที่จะ *ส่ง* ข้อความต้อนรับไป
+    const channelToSendTo = member.guild.channels.cache.get(welcomeChannelId);
 
-  if (!channel || !channel.isTextBased()) {
-    await interaction.reply({ content: 'Cannot find or send to welcome channel.', ephemeral: true });
-    return;
-  }
+    if (!channelToSendTo || !channelToSendTo.isTextBased()) {
+      await interaction.reply({
+        content: 'Cannot find or send to welcome channel.',
+        ephemeral: true
+      });
+      return;
+    }
 
-  const welcomeMessage = `(TEST) ยินดีต้อนรับ ${member.user} สู่ดิสคอร์ดออฟฟิเชียลของโรงเรียนเทพศิรินทร์ ขอให้คุณอ่านกฎ และยืนยันตัวตนก่อนเข้าใช้งานนะครับ`;
-  try {
-    await channel.send(welcomeMessage);
-    await interaction.reply({ content: 'Test welcome message sent!', ephemeral: true });
-  } catch (error) {
-    console.error(error);
-    await interaction.reply({ content: 'Failed to send test welcome message.', ephemeral: true });
+    // --- ส่วนที่แก้ไข ---
+    // ใส่ ID ของช่อง #VERIFY ของคุณตรงนี้
+    const verifyChannelActualId = "1356492832210288774"; // ★★★ ใส่ ID ของช่อง #VERIFY ตรงนี้ ★★★
+
+    // ใส่ ID ของช่องที่มี "กฎ" ของคุณตรงนี้
+    const rulesChannelActualId = "1347554267015155763"; // <--- ★★★ ใส่ ID ของช่อง "กฎ" ตรงนี้ ★★★
+
+    // ปรับแก้ข้อความต้อนรับ
+    const welcomeMessage = `(TEST) ยินดีต้อนรับ ${member.user} สู่ดิสคอร์ดออฟฟิเชียลของโรงเรียนเทพศิรินทร์ ขอให้คุณตรวจสอบ Server Guide และอ่าน<#${rulesChannelActualId}>ให้เรียบร้อย สำหรับนักเรียนโรงเรียนเทพศิรินทร์ กรุณายืนยันตัวตนที่ช่อง <#${verifyChannelActualId}>`;
+    // --- สิ้นสุดส่วนที่แก้ไข ---
+
+    try {
+      await channelToSendTo.send(welcomeMessage);
+      await interaction.reply({
+        content: 'Test welcome message sent!',
+        ephemeral: true
+      });
+    } catch (error) {
+      console.error(error);
+      await interaction.reply({
+        content: 'Failed to send test welcome message.',
+        ephemeral: true
+      });
+    }
   }
-}
 
 });
 
