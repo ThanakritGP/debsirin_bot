@@ -171,6 +171,9 @@ const ds_quotes = [
 // Client Ready Event
 client.on(Events.ClientReady, readyClient => {
   console.log(`Logged in as ${readyClient.user.tag}!`);
+  readyClient.user.setActivity('รอรับคำสั่งจากเด็กเทพศิรินทร์', {
+    type: 3 
+  });  
 });
 
 
@@ -179,24 +182,31 @@ client.on(Events.InteractionCreate, async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === 'menu') {
-    await interaction.reply(menu[Math.floor(Math.random() * menu.length)]);
+    client.user.setActivity('สุ่มเมนูอาหาร', { type: 0 });
+    const food = menu[Math.floor(Math.random() * menu.length)];
+    await interaction.reply(`🍽️ เมนู : **${food}**`);
   }
 
   if (interaction.commandName === 'dessert-menu') {
-    await interaction.reply(dessertMenu[Math.floor(Math.random() * dessertMenu.length)]);
+    client.user.setActivity('สุ่มเมนูขนมหวาน', { type: 0 });
+    const dessert = dessertMenu[Math.floor(Math.random() * dessertMenu.length)];
+    await interaction.reply(`🍰 เมนูขนมหวาน : **${dessert}**`);
   }
 
   if (interaction.commandName === 'ds-quotes') {
+    client.user.setActivity('สุ่มคำคมบาดใจเด็กทศ ไม่ง้อหญิง', { type: 0 });
     await interaction.reply(ds_quotes[Math.floor(Math.random() * ds_quotes.length)]);
   }
 
   if (interaction.commandName === 'about-debsirin-bot') {
+    client.user.setActivity('เกี่ยวกับบอตเทพศิรินทร์', { type: 0 });
     await interaction.reply('บอตเทพศิรินทร์ พัฒนาโดย PingzGP (ปิง) DSA139 IEP💚💛');
   }
 
   if (!interaction.isCommand()) return;
 
   if (interaction.commandName === 'room-number') {
+    client.user.setActivity('เลขประจำห้องเรียน', { type: 0 });
     await interaction.deferReply();
     const embed = new EmbedBuilder()
       .setTitle('🔢 หมายเลขห้องเรียนโรงเรียนเทพศิรินทร์')
@@ -222,6 +232,7 @@ client.on(Events.InteractionCreate, async interaction => {
   }
 
   if (interaction.commandName === 'contact') {
+    client.user.setActivity('ช่องทางติดต่อ', { type: 0 });
     const row = new ActionRowBuilder()
       .addComponents(
         new ButtonBuilder()
@@ -256,6 +267,7 @@ client.on(Events.InteractionCreate, async interaction => {
   }
 
   if (interaction.commandName === 'debmedia') {
+    client.user.setActivity('รูปถ่ายจาก DEB MEDIA', { type: 0 });
     const row = new ActionRowBuilder()
       .addComponents(
         new ButtonBuilder()
