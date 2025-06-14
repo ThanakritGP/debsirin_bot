@@ -187,7 +187,7 @@ client.on(Events.InteractionCreate, async interaction => {
     await interaction.reply(`🍽️ เมนู : **${food}**`);
     // กลับสู่สถานะเดิม
     setTimeout(() => {
-      client.user.setActivity('รอรับคำสั่งจาก User', {
+      client.user.setActivity('รอรับคำสั่งจากเด็กเทพศิรินทร์', {
         type: 3
       });
     }, 3000);
@@ -199,7 +199,7 @@ client.on(Events.InteractionCreate, async interaction => {
     await interaction.reply(`🍰 เมนูขนมหวาน : **${dessert}**`);
     // กลับสู่สถานะเดิม
     setTimeout(() => {
-      client.user.setActivity('รอรับคำสั่งจาก User', {
+      client.user.setActivity('รอรับคำสั่งจากเด็กเทพศิรินทร์', {
         type: 3
       });
     }, 3000);
@@ -221,7 +221,7 @@ client.on(Events.InteractionCreate, async interaction => {
     await interaction.reply('บอตเทพศิรินทร์ พัฒนาโดย PingzGP (ปิง) DSA139 IEP💚💛');
     // กลับสู่สถานะเดิม
     setTimeout(() => {
-      client.user.setActivity('รอรับคำสั่งจาก User', {
+      client.user.setActivity('รอรับคำสั่งจากเด็กเทพศิรินทร์', {
         type: 3
       });
     }, 3000);
@@ -255,7 +255,7 @@ client.on(Events.InteractionCreate, async interaction => {
     });
     // กลับสู่สถานะเดิม
     setTimeout(() => {
-      client.user.setActivity('รอรับคำสั่งจาก User', {
+      client.user.setActivity('รอรับคำสั่งจากเด็กเทพศิรินทร์', {
         type: 3
       });
     }, 3000);
@@ -296,7 +296,7 @@ client.on(Events.InteractionCreate, async interaction => {
     });
     // กลับสู่สถานะเดิม
     setTimeout(() => {
-      client.user.setActivity('รอรับคำสั่งจาก User', {
+      client.user.setActivity('รอรับคำสั่งจากเด็กเทพศิรินทร์', {
         type: 3
       });
     }, 3000);
@@ -319,7 +319,7 @@ client.on(Events.InteractionCreate, async interaction => {
     });
     // กลับสู่สถานะเดิม
     setTimeout(() => {
-      client.user.setActivity('รอรับคำสั่งจาก User', {
+      client.user.setActivity('รอรับคำสั่งจากเด็กเทพศิรินทร์', {
         type: 3
       });
     }, 3000);
