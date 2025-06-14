@@ -185,22 +185,46 @@ client.on(Events.InteractionCreate, async interaction => {
     client.user.setActivity('สุ่มเมนูอาหาร', { type: 0 });
     const food = menu[Math.floor(Math.random() * menu.length)];
     await interaction.reply(`🍽️ เมนู : **${food}**`);
+    // กลับสู่สถานะเดิม
+    setTimeout(() => {
+      client.user.setActivity('รอรับคำสั่งจาก User', {
+        type: 3
+      });
+    }, 3000);
   }
 
   if (interaction.commandName === 'dessert-menu') {
     client.user.setActivity('สุ่มเมนูขนมหวาน', { type: 0 });
     const dessert = dessertMenu[Math.floor(Math.random() * dessertMenu.length)];
     await interaction.reply(`🍰 เมนูขนมหวาน : **${dessert}**`);
+    // กลับสู่สถานะเดิม
+    setTimeout(() => {
+      client.user.setActivity('รอรับคำสั่งจาก User', {
+        type: 3
+      });
+    }, 3000);
   }
 
   if (interaction.commandName === 'ds-quotes') {
     client.user.setActivity('สุ่มคำคมบาดใจเด็กทศ ไม่ง้อหญิง', { type: 0 });
     await interaction.reply(ds_quotes[Math.floor(Math.random() * ds_quotes.length)]);
+    // กลับสู่สถานะเดิม
+    setTimeout(() => {
+      client.user.setActivity('รอรับคำสั่งจาก User', {
+        type: 3
+      });
+    }, 3000);
   }
 
   if (interaction.commandName === 'about-debsirin-bot') {
     client.user.setActivity('เกี่ยวกับบอตเทพศิรินทร์', { type: 0 });
     await interaction.reply('บอตเทพศิรินทร์ พัฒนาโดย PingzGP (ปิง) DSA139 IEP💚💛');
+    // กลับสู่สถานะเดิม
+    setTimeout(() => {
+      client.user.setActivity('รอรับคำสั่งจาก User', {
+        type: 3
+      });
+    }, 3000);
   }
 
   if (!interaction.isCommand()) return;
@@ -229,6 +253,12 @@ client.on(Events.InteractionCreate, async interaction => {
     await interaction.reply({
       embeds: [embed]
     });
+    // กลับสู่สถานะเดิม
+    setTimeout(() => {
+      client.user.setActivity('รอรับคำสั่งจาก User', {
+        type: 3
+      });
+    }, 3000);
   }
 
   if (interaction.commandName === 'contact') {
@@ -264,6 +294,12 @@ client.on(Events.InteractionCreate, async interaction => {
       content: '📩 **Contact Us!**',
       components: [row]
     });
+    // กลับสู่สถานะเดิม
+    setTimeout(() => {
+      client.user.setActivity('รอรับคำสั่งจาก User', {
+        type: 3
+      });
+    }, 3000);
   }
 
   if (interaction.commandName === 'debmedia') {
@@ -281,6 +317,12 @@ client.on(Events.InteractionCreate, async interaction => {
       content: '📩 **Download pictures here!**',
       components: [row]
     });
+    // กลับสู่สถานะเดิม
+    setTimeout(() => {
+      client.user.setActivity('รอรับคำสั่งจาก User', {
+        type: 3
+      });
+    }, 3000);
   }
 
 
