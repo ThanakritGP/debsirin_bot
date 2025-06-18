@@ -18,6 +18,9 @@ import {
   handleDessertMenu
 } from './commands/random-dessert.js';
 import {
+  handleDrinksMenu
+} from './commands/random-drinks.js';
+import {
   handleAboutDebsirinBot
 } from './commands/about-debsirin-bot.js';
 import {
@@ -58,6 +61,10 @@ const commands = [{
   {
     name: 'dessert-menu',
     description: 'Random Dessert🥞',
+  },
+  {
+    name: 'drinks-menu',
+    description: 'Random Drinks🍹',
   },
   {
     name: 'about-debsirin-bot',
@@ -121,6 +128,10 @@ client.on(Events.InteractionCreate, async interaction => {
 
   if (interaction.commandName === 'dessert-menu') {
     await handleDessertMenu(interaction, client);
+  }
+
+  if (interaction.commandName === 'drinks-menu') {
+    await handleDrinksMenu(interaction, client);
   }
 
   if (interaction.commandName === 'ds-quotes') {
