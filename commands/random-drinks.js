@@ -36,7 +36,7 @@ export async function handleDrinksMenu(interaction, client) {
   const embed = new EmbedBuilder()
     .setTitle('🍹 เครื่องดื่ม :')
     .setDescription(`**${drink}**`)
-    .setColor('#FF66CC')
+    .setColor('#66FFCC')
     .setTimestamp();
 
   await interaction.reply({ embeds: [embed] });
