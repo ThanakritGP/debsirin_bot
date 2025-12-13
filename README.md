@@ -1,7 +1,7 @@
 
 # 𝗗𝗲𝗯𝘀𝗶𝗿𝗶𝗻 𝗖𝗼𝗺𝗺𝘂𝗻𝗶𝘁𝘆 𝗕𝗼𝘁
 
-A bot developed used in Debsirin Commuity Server
+A bot developed used in Debsirin Community Server
 
 
 ## Developer
