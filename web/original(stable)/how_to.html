@@ -1,0 +1,34 @@
+<style>
+  @keyframes fadeInSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px); /* เริ่มจากด้านล่างเล็กน้อย */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0); /* เลื่อนมาที่ตำแหน่งปกติ */
+    }
+  }
+
+  .card-animated {
+    animation-name: fadeInSlideUp;
+    animation-duration: 0.7s; /* ระยะเวลาของแอนิเมชั่น (ปรับได้) */
+    animation-fill-mode: both; /* ให้คงสถานะสุดท้ายของแอนิเมชั่นไว้ */
+    animation-timing-function: ease-in-out; /* รูปแบบการเคลื่อนไหว */
+  }
+</style>
+
+<div class="container mt-3">
+  <div class="card p-4 mx-auto text-start card-animated">
+    <h2 class="mb-3 text-center"><i class="fas fa-info-circle"></i> วิธีการยืนยันตัวตน</h2>
+    <p class="text-center">
+      กรุณาติดต่อ STAFF ผ่านระบบ TICKET และทำตามคำแนะนำครับ🔰
+    </p>
+    <div class="text-center mt-3 mb-3">
+      <img src="https://raw.githubusercontent.com/ThanakritGP/images/main/how-to-verify.png" alt="ตัวอย่างระบบ Ticket" class="img-fluid w-75">
+    </div>
+    <div class="text-center mt-4">
+      <button class="btn btn-primary" onclick="loadMainPage()">กลับไปที่หน้ายืนยันตัวตน</button>
+    </div>
+  </div>
+</div>

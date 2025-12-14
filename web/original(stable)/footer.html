@@ -1,0 +1,79 @@
+<footer class="bg-light py-3 mt-auto fixed-bottom">
+  <div class="container-fluid ps-4 pe-4">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="text-start">
+        <p class="mb-0" style="font-size: 0.8rem;">© DEBSIRIN COMMUNITY SERVER 2025</p>
+        <p class="mb-0"style="font-size: 0.8rem;">Debsirin Community Server ปีการศึกษา 2568</p>
+        <p class="mb-0" style="font-size: 0.75rem; opacity: 0.65;">Background: พี่เอก DSA107</p>
+      </div>
+      <div>
+        <a id="github-link" href="https://github.com/ThanakritGP/debsirin_bot" class="text-success mx-2 text-decoration-none"
+          target="_blank">
+          <i class="fab fa-github fa-2x icon-hover"></i>
+        </a>
+        <!-- <a id="instagram-link" href="https://www.instagram.com/debsirinsc" class="text-dark mx-2 text-decoration-none"
+          target="_blank">
+          <i class="fab fa-instagram fa-2x icon-hover"></i>
+        </a>
+        <a id="facebook-link" href="https://www.facebook.com/DebsirinSC" class="text-dark mx-2 text-decoration-none"
+          target="_blank">
+          <i class="fab fa-facebook fa-2x icon-hover"></i>
+        </a>
+        <a id="tiktok-link" href="https://www.tiktok.com/@debsirinsc" class="text-dark mx-2 text-decoration-none"
+          target="_blank">
+          <i class="fab fa-tiktok fa-2x icon-hover"></i>
+        </a>
+        <a id="youtube-link" href="www.youtube.com/channel/UCAAAAbbbbCCCcdddd"
+          class="text-dark mx-2 text-decoration-none" target="_blank">
+          <i class="fab fa-youtube fa-2x icon-hover"></i>
+        </a> -->
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function() { // IIFE to encapsulate scope
+    function isMobileDevice() {
+      // Basic check for mobile user agents
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    // Configuration for social links
+    const socialLinksConfig = [
+      {
+        id: 'instagram-link',
+        webUrl: 'https://www.instagram.com/debsirinsc',
+        appScheme: 'instagram://user?username=debsirinsc'
+      },
+      {
+        id: 'facebook-link',
+        webUrl: 'https://www.facebook.com/DebsirinSC',
+        appScheme: 'fb://facewebmodal/f?href=https://www.facebook.com/DebsirinSC' // <--- เปลี่ยนเป็น scheme นี้
+      },
+      {
+        id: 'tiktok-link',
+        webUrl: 'https://www.tiktok.com/@debsirinsc',
+        appScheme: 'https://www.tiktok.com/@debsirinsc'
+      },
+      {
+        id: 'youtube-link',
+        webUrl: 'https://youtube.com/@debsirinsc?si=uyjjS4A8T3E5Unde', // Web link to your channel
+        appScheme: 'https://youtube.com/@debsirinsc?si=uyjjS4A8T3E5Unde' // App scheme for your channel ID
+      }
+    ];
+
+    const onMobile = isMobileDevice();
+
+    socialLinksConfig.forEach(config => {
+      const linkElement = document.getElementById(config.id);
+      if (linkElement) {
+        if (onMobile) {
+          linkElement.href = config.appScheme;
+        } else {
+          linkElement.href = config.webUrl; // This is already the default, but explicit for clarity
+        }
+      }
+    });
+  })();
+</script>

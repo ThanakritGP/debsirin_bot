@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ยืนยันตัวตน DS COMMUNITY DISCORD</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&family=Poppins:wght@100..900&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+  <style>
+    /* ... (CSS ส่วนอื่นๆ เหมือนเดิม) ... */
+    html,
+    body {
+      min-height: 100%;
+      height: auto;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: 'Noto Sans Thai', sans-serif;
+      background-color: #f8f9fa;
+      color: #000000;
+      text-align: center;
+      padding-top: 70px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://raw.githubusercontent.com/ThanakritGP/images/main/bg%20ds2.jpg') no-repeat center center;
+      background-size: cover;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    .main-content-wrapper {
+      flex: 1 0 auto;
+      width: 100%;
+    }
+
+    #dynamic-content-area {
+      padding-top: 20px;
+      padding-bottom: 140px;
+    }
+
+    .card {
+      border-radius: 15px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 0;
+    }
+
+    /* ... (CSS ส่วนอื่นๆ ที่ไม่เกี่ยวข้องกับการจัดวางตำแหน่งโดยตรง) ... */
+    .btn-custom {
+      background-color: #007bff !important;
+      color: white !important;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 10px 20px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .btn-custom:hover {
+      background-color: #0056b3 !important;
+    }
+
+    #result {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 300px;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #ffb300 !important;
+      color: black !important;
+    }
+
+    #confirm-btn-container {
+      display: none;
+      width: 60%;
+      min-width: 300px;
+      margin: 15px auto 30px;
+    }
+
+    .btn-success {
+      background-color: #28a745 !important;
+      color: white !important;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 10px 20px;
+      transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      width: 100%;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-success:hover {
+      background-color: #1e7e34 !important;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-success:active {
+      background-color: #19692c !important;
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    :root {
+      --bs-success: #198754;
+      --bs-success-hover: #157347;
+      /* สีเข้มขึ้นสำหรับ hover */
+      --bs-success-light: rgba(25, 135, 84, 0.1);
+      /* สีอ่อนสำหรับพื้นหลัง active */
+      --bs-success-lighter: rgba(25, 135, 84, 0.2);
+      /* สีอ่อนขึ้นสำหรับพื้นหลัง hover */
+    }
+
+    /* ✨ การแก้ไขสำหรับ FOOTER */
+    footer {
+      color: var(--bs-success);
+    }
+
+    footer a {
+      color: var(--bs-success) !important;
+    }
+
+    footer .container-fluid {
+      font-size: 0.9rem;
+    }
+
+    .icon-hover {
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .icon-hover:hover {
+      transform: scale(1.2);
+      color: var(--bs-success-hover);
+    }
+
+    @media (max-width: 768px) {
+
+      table,
+      #confirm-btn-container {
+        width: 90%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      footer .container-fluid {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      footer .container-fluid .d-flex {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      footer .container-fluid div.text-start {
+        text-align: center !important;
+        margin-bottom: 5px;
+      }
+
+      footer a i {
+        font-size: 1.5rem !important;
+        color: var(--bs-success) !important;
+        margin: 0 5px;
+      }
+    }
+
+    .btn-discord {
+      background-color: #5865F2 !important;
+      color: white !important;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 10px 20px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .btn-discord:hover {
+      background-color: #4752C4 !important;
+    }
+
+    @media (max-width: 991.98px) {
+      .navbar .container-fluid {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+      }
+
+      .navbar-brand {
+        color: var(--bs-success) !important;
+        white-space: normal;
+        word-break: break-word;
+        font-size: 0.9rem;
+        margin-right: 8px;
+        line-height: 1.2;
+      }
+
+      .navbar-brand .fab.fa-discord {
+        font-size: 1em;
+        vertical-align: middle;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .navbar-brand {
+        font-size: 0.8rem;
+      }
+
+      .navbar-brand .fab.fa-discord {
+        font-size: 1em;
+      }
+
+      .navbar .container-fluid {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+      }
+    }
+
+    /* ✨ การแก้ไขสำหรับ NAVLINK (Header) */
+    /* ----------------------------------- */
+
+    /* 1. สีเริ่มต้นของ Nav Link (แก้จากโค้ดเดิม) */
+    .navbar-nav .nav-link {
+      color: var(--bs-success) !important;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
+      border-radius: 0.3rem;
+      transition: background-color 0.25s ease-out, transform 0.2s ease-out, box-shadow 0.25s ease-out;
+      margin: 0 0.25rem;
+    }
+
+    /* 2. สีเมื่อนำเมาส์ไปวางเหนือลิงก์ (Hover/Focus) */
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link:focus {
+      color: var(--bs-success) !important;
+      background-color: var(--bs-success-lighter);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 3. สีของลิงก์ที่ Active */
+    .navbar-nav .nav-link.active {
+      color: var(--bs-success) !important;
+      font-weight: bold;
+      background-color: var(--bs-success-light);
+    }
+
+    .navbar-nav .nav-link.active:hover,
+    .navbar-nav .nav-link.active:focus {
+      background-color: var(--bs-success-lighter);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    /* บังคับซ่อน Navbar และ Footer เมื่ออยู่ในโหมด Admin */
+    body.admin-view nav.navbar,
+    body.admin-view footer {
+      display: none !important;
+    }
+
+    /* บังคับซ่อน Background และล้าง Padding */
+    body.admin-view {
+      margin: 0 !important;
+      padding: 0 !important;
+      background-color: #f8f9fc !important;
+      /* พื้นหลังสีเทาอ่อนแบบ SB Admin 2 */
+      padding-top: 0 !important;
+    }
+
+    body.admin-view::before {
+      opacity: 0 !important;
+    }
+
+    /* ⭐⭐⭐ CSS ส่วน Admin Login/Dashboard (ย้ายมาจาก admin_page.html) ⭐⭐⭐ */
+    .login-full-page {
+      min-height: calc(100vh - 60px);
+      height: auto;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 0;
+    }
+
+    .login-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 450px;
+      padding: 20px 28px !important;
+      /* ← ลดลง */
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-section {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      padding: 20px 20px 15px;
+      text-align: center;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .logo-section img {
+      width: 280px;
+      max-width: 180px;
+      height: auto;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    }
+
+    .logo-section h1 {
+      font-size: 1.4rem;
+      color: #2c3e50;
+      font-weight: 600;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    .logo-section p {
+      color: #7f8c8d;
+      font-size: 14px;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+
+    .form-section {
+      margin-top: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .login-container label {
+      display: block;
+      margin-bottom: 8px;
+      color: #34495e;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    /* ใช้สำหรับ input type ที่เราใช้เท่านั้น */
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'Noto Sans Thai', sans-serif;
+      transition: all 0.3s ease;
+      background-color: #f8f9fa;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #17a2b8;
+      background-color: white;
+      box-shadow: 0 0 0 4px rgba(23, 162, 184, 0.1);
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Noto Sans Thai', sans-serif;
+      box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+    }
+
+    .login-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(23, 162, 184, 0.4);
+    }
+
+    .login-button:active {
+      transform: translateY(0);
+    }
+
+    /* ซ่อน navbar + footer เฉพาะตอนที่อยู่หน้า Login */
+    .login-full-page~nav.navbar,
+    .login-full-page~footer {
+      display: none !important;
+    }
+
+    /* ทำให้พื้นหลังเต็มหน้าจอ */
+    .login-full-page {
+      min-height: 100vh;
+    }
+
+    .table-responsive {
+      overflow-x: hidden !important;
+    }
+
+    .metric-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .06);
+      transition: all .25s ease;
+      height: 100%;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .12);
+    }
+
+    /* ICON */
+    .metric-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #fff;
+    }
+
+    /* CONTENT */
+    .metric-content h6 {
+      margin: 0;
+      font-size: 14px;
+      color: #6c757d;
+    }
+
+    .metric-number {
+      font-size: 32px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* COLORS */
+    .metric-card.primary .metric-icon {
+      background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+    }
+
+    .metric-card.success .metric-icon {
+      background: linear-gradient(135deg, #198754, #20c997);
+    }
+
+    .metric-card.warning .metric-icon {
+      background: linear-gradient(135deg, #ffc107, #ffca2c);
+    }
+
+    /* ชิดซ้ายเฉพาะข้อความ */
+    #studentsTable td,
+    #studentsTable th {
+      text-align: left;
+    }
+
+    /* ยกเว้น element ที่ไม่ใช่ข้อความ */
+    #studentsTable td button,
+    #studentsTable td .btn,
+    #studentsTable td i,
+    #studentsTable td svg,
+    #studentsTable td .badge {
+      text-align: center;
+    }
+
+    .metric-card {
+      height: 120px;
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border-radius: 12px;
+    }
+
+    .metric-icon {
+      font-size: 36px;
+      margin-right: 15px;
+    }
+
+    .metric-content h6 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .metric-number {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 4px;
+    }
+
+    .admin-topbar {
+      height: 56px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    /* ปรับ DataTables ให้เข้ากับ Bootstrap */
+    .dataTables_wrapper {
+      width: 100%;
+    }
+
+    .dataTables_filter label,
+    .dataTables_length label {
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+
+    /* ช่อง search */
+    .dataTables_filter label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    /* select จำนวนแถว */
+    .dataTables_length select {
+      border-radius: 6px;
+      border: 1px solid #ced4da;
+      padding: 4px 6px;
+    }
+
+    /* pagination */
+      .dataTables_paginate .pagination {
+      margin: 0;
+    }
+
+    /* ช่องค้นหา */
+    .dataTables_filter input {
+      margin: 0 !important;
+    }
+
+    .table-responsive {
+      /* สำคัญ: ต้องมี overflow-x: auto; */
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch; /* เพื่อให้การเลื่อนบน iOS ลื่นไหล */
+    }
+  </style>
+</head>
+
+<body>
+
+  <?!= HtmlService.createHtmlOutputFromFile('header').getContent(); ?>
+
+  <div class="main-content-wrapper">
+    <div id="dynamic-content-area" class="container"></div>
+  </div>
+
+  <?!= HtmlService.createHtmlOutputFromFile('footer').getContent(); ?>
+
+  <script>
+    /* --------------- JS CODE (CLEANED) --------------- */
+    
+    let placeholderAnimationIntervalId = null;
+    let placeholderAnimationTimeoutId = null;
+    let shouldStopPlaceholderAnimation = false;
+
+    function animateDynamicPlaceholder(element, texts, config) {
+      if (!element) return;
+      const originalStaticPlaceholder = element.getAttribute('placeholder') || '';
+      const defaults = {
+        prefix: ">>...",
+        suffix: "...",
+        typeSpeed: 120,
+        eraseSpeed: 70,
+        pauseAfterType: 2000,
+        pauseAfterErase: 700,
+        initialDelay: 500
+      };
+      const settings = { ...defaults, ...config };
+      let textIndex = 0;
+      let charIndex = 0;
+      let currentDisplay = "";
+      let isErasing = false;
+
+      function clearAllTimers() {
+        if (placeholderAnimationIntervalId) clearInterval(placeholderAnimationIntervalId);
+        if (placeholderAnimationTimeoutId) clearTimeout(placeholderAnimationTimeoutId);
+        placeholderAnimationIntervalId = null;
+        placeholderAnimationTimeoutId = null;
+      }
+
+      function typeCharacter() {
+        if (shouldStopPlaceholderAnimation) return;
+        const fullText = settings.prefix + texts[textIndex] + settings.suffix;
+        if (charIndex < fullText.length) {
+          currentDisplay += fullText.charAt(charIndex);
+          element.placeholder = currentDisplay;
+          charIndex++;
+        } else {
+          clearAllTimers();
+          placeholderAnimationTimeoutId = setTimeout(() => {
+            if (shouldStopPlaceholderAnimation) return;
+            isErasing = true;
+            startErasing();
+          }, settings.pauseAfterType);
+        }
+      }
+
+      function eraseCharacter() {
+        if (shouldStopPlaceholderAnimation) return;
+        if (currentDisplay.length > 0) {
+          currentDisplay = currentDisplay.substring(0, currentDisplay.length - 1);
+          element.placeholder = currentDisplay;
+        } else {
+          clearAllTimers();
+          isErasing = false;
+          charIndex = 0;
+          textIndex = (textIndex + 1) % texts.length;
+          placeholderAnimationTimeoutId = setTimeout(() => {
+            if (shouldStopPlaceholderAnimation) return;
+            startTyping();
+          }, settings.pauseAfterErase);
+        }
+      }
+
+      function startTyping() {
+        if (shouldStopPlaceholderAnimation) return;
+        clearAllTimers();
+        currentDisplay = "";
+        element.placeholder = "";
+        placeholderAnimationIntervalId = setInterval(typeCharacter, settings.typeSpeed);
+      }
+
+      function startErasing() {
+        if (shouldStopPlaceholderAnimation) return;
+        clearAllTimers();
+        placeholderAnimationIntervalId = setInterval(eraseCharacter, settings.eraseSpeed);
+      }
+
+      const stopAnimationHandler = () => {
+        if (!shouldStopPlaceholderAnimation) {
+          shouldStopPlaceholderAnimation = true;
+          clearAllTimers();
+          element.placeholder = originalStaticPlaceholder;
+          element.removeEventListener('input', stopAnimationHandler);
+        }
+      };
+
+      element.removeEventListener('input', stopAnimationHandler);
+      element.addEventListener('input', stopAnimationHandler);
+
+      shouldStopPlaceholderAnimation = false;
+      clearAllTimers();
+      placeholderAnimationTimeoutId = setTimeout(startTyping, settings.initialDelay);
+    }
+
+    function initializePlaceholderAnimation(elementId, textsArray, configOptions) {
+      const inputElement = document.getElementById(elementId);
+      if (inputElement) {
+        animateDynamicPlaceholder(inputElement, textsArray, configOptions);
+      }
+    }
+
+    // ⭐⭐ ฟังก์ชัน showLoadingSweetAlert ที่ปรับปรุงให้ใช้ Bootstrap Spinner ⭐⭐
+    function showLoadingSweetAlert(pageName) {
+      Swal.fire({
+        title: 'กำลังโหลด ' + pageName + '...',
+        // เปลี่ยนมาใช้ HTML Spinner ที่เสถียรกว่าแทน didOpen: () => Swal.showLoading()
+        html: `
+            <div class="d-flex justify-content-center align-items-center flex-column py-2">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3 mb-0 text-muted">กรุณารอสักครู่</p>
+            </div>
+        `,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+      });
+    }
+
+    function setActiveNavLink(activeLinkId) {
+      document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+        link.classList.remove('active');
+        link.removeAttribute('aria-current');
+      });
+
+      const activeLink = document.getElementById(activeLinkId);
+      if (activeLink) {
+        activeLink.classList.add('active');
+        activeLink.setAttribute('aria-current', 'page');
+      }
+    }
+
+    function loadMainPage() {
+      showLoadingSweetAlert('ยืนยันตัวตน');
+
+      document.querySelector('nav.navbar').style.display = '';
+      document.querySelector('footer').style.display = '';
+      document.body.classList.remove('admin-view');
+      document.getElementById('dynamic-content-area').classList.add('container'); 
+
+      google.script.run
+        .withSuccessHandler(html => {
+          document.getElementById('dynamic-content-area').innerHTML = html;
+
+          foundStudentData = null;
+          const idInput = document.getElementById('id');
+          if (idInput) idInput.value = '';
+
+          const resultDiv = document.getElementById('result');
+          if (resultDiv) resultDiv.innerHTML = '';
+
+          const confirmBtnContainer = document.getElementById('confirm-btn-container');
+          if (confirmBtnContainer) confirmBtnContainer.style.display = 'none';
+
+          Swal.close();
+          document.body.classList.remove('swal2-shown', 'swal2-height-auto'); // ทำความสะอาด SweetAlert Class
+          setActiveNavLink('nav-main-page');
+
+          initializePlaceholderAnimation('id', ["กรอกเลขประจำตัวนักเรียน"], {
+            prefix: ">>...",
+            suffix: "...",
+            typeSpeed: 120,
+            eraseSpeed: 70,
+            pauseAfterType: 2500,
+            pauseAfterErase: 500,
+            initialDelay: 800
+          });
+        })
+        .withFailureHandler(error => {
+          Swal.close();
+          document.body.classList.remove('swal2-shown', 'swal2-height-auto'); // ทำความสะอาด
+          Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดหน้ายืนยันตัวตนได้: ' + (error.message || error), 'error');
+        })
+        .getMainContent();
+    }
+
+    function loadHowToPage() {
+      showLoadingSweetAlert('วิธีการยืนยันตัวตน');
+
+      google.script.run
+        .withSuccessHandler(html => {
+          document.getElementById('dynamic-content-area').innerHTML = html;
+          Swal.close();
+          document.body.classList.remove('swal2-shown', 'swal2-height-auto'); // ทำความสะอาด
+          setActiveNavLink('nav-how-to-page');
+        })
+        .withFailureHandler(error => {
+          Swal.close();
+          document.body.classList.remove('swal2-shown', 'swal2-height-auto'); // ทำความสะอาด
+          Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดวิธีการยืนยันตัวตนได้: ' + (error.message || error), 'error');
+        })
+        .getHowToContent();
+    }
+
+    function handleAdminLoginResponse(response) {
+      Swal.close();
+      document.body.classList.remove('swal2-shown', 'swal2-height-auto');
+
+      if (response.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'เข้าสู่ระบบสำเร็จ!',
+          showConfirmButton: false,
+          timer: 1000
+        }).then(() => {
+
+          const loginSection = document.getElementById('login-section');
+          const dashboardSection = document.getElementById('dashboard-section');
+
+          if (loginSection && dashboardSection) {
+            loginSection.style.display = 'none';
+            dashboardSection.style.display = 'block';
+
+            // ✅ เพิ่มตรงนี้ทันที
+            setTimeout(() => {
+              updateAdminTopbar(response.name || 'ผู้ดูแลระบบ');
+            }, 0);
+
+            // โหลดข้อมูล Dashboard
+            if (typeof loadMetrics === 'function') {
+              loadMetrics();
+            }
+
+          } else {
+            Swal.fire('ข้อผิดพลาดภายใน', 'ไม่พบส่วน Login/Dashboard ใน HTML', 'error');
+            document.body.classList.remove('admin-view');
+          }
+        });
+
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'เข้าสู่ระบบไม่สำเร็จ',
+          text: response.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+          confirmButtonText: 'ลองอีกครั้ง'
+        });
+      }
+    }
+
+    function loadAdminPage() {
+       Swal.close();
+      // 1. เปลี่ยนเป็นโหมด Admin
+      document.body.classList.add('admin-view');
+      document.getElementById('dynamic-content-area').classList.remove('container');
+      document.getElementById('dynamic-content-area').style.padding = "0";
+      document.getElementById('dynamic-content-area').style.margin = "0";
+
+
+      // ⭐⭐ เคลียร์เนื้อหาจากหน้าเก่าออกทันที ⭐⭐
+      document.getElementById('dynamic-content-area').innerHTML = `
+        <div class="text-center py-5">
+          <div class="spinner-border text-primary" role="status"></div>
+          <p class="mt-3 text-muted">กำลังโหลดหน้า Admin...</p>
+        </div>
+      `;
+
+      // 2. โหลด Admin Page
+      google.script.run
+        .withSuccessHandler(html => {
+          Swal.close();
+          document.body.classList.remove('swal2-shown', 'swal2-height-auto');
+          document.getElementById('dynamic-content-area').innerHTML = html;
+
+          const scriptElement = document
+            .getElementById('dynamic-content-area')
+            .querySelector('script');
+
+          if (scriptElement) {
+            const scriptContent = scriptElement.textContent;
+            scriptElement.remove();
+            const newScript = document.createElement('script');
+            newScript.textContent = scriptContent;
+            document.body.appendChild(newScript);
+          }
+
+          // 🔴🔴🔴 เพิ่มตรงนี้ 🔴🔴🔴
+          if (typeof loadAllStudentsTable === 'function') {
+            loadAllStudentsTable();
+          }
+
+          if (typeof loadMetrics === 'function') {
+            loadMetrics();
+          }
+        })
+        .withFailureHandler(error => {
+          Swal.close();
+          document.body.classList.remove('swal2-shown', 'swal2-height-auto');
+          Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดหน้า Admin ได้: ' + (error.message || error), 'error');
+
+          document.body.classList.remove('admin-view');
+          document.getElementById('dynamic-content-area').classList.add('container');
+        })
+        .getAdminPage();
+    }
+
+    let foundStudentData = null;
+
+    function info() {
+      let obj = document.querySelector('#id').value.trim();
+      let updateLocation = document.querySelector('#result');
+      let confirmBtn = document.getElementById('confirm-btn-container');
+
+      updateLocation.innerHTML = "";
+      confirmBtn.style.display = 'none';
+      foundStudentData = null;
+
+      if (!/^\d{5}$/.test(obj)) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'รูปแบบไม่ถูกต้อง',
+          text: 'กรุณากรอกเลขประจำตัวนักเรียน 5 หลักเท่านั้น',
+          confirmButtonColor: '#ffc107'
+        });
+        return;
+      }
+
+      Swal.fire({
+        title: 'กำลังค้นหาข้อมูล...',
+        text: 'กรุณารอสักครู่',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        html: `
+            <div class="d-flex justify-content-center align-items-center flex-column py-2">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3 mb-0 text-muted">กรุณารอสักครู่</p>
+            </div>
+        `,
+      });
+
+      google.script.run.withFailureHandler(onFailure).withSuccessHandler(onSuccess).submitData(obj);
+    }
+
+    function onFailure(error) {
+      Swal.close();
+      document.body.classList.remove('swal2-shown', 'swal2-height-auto'); // ทำความสะอาด
+      Swal.fire({
+        icon: 'error',
+        title: 'เกิดข้อผิดพลาด!',
+        text: error ? error.message || error : 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้',
+        confirmButtonColor: '#dc3545'
+      });
+
+      document.querySelector('#result').innerHTML = "";
+      foundStudentData = null;
+      document.getElementById('confirm-btn-container').style.display = 'none';
+    }
+
+    function onSuccess(response) {
+      Swal.close();
+      document.body.classList.remove('swal2-shown', 'swal2-height-auto'); // ทำความสะอาด
+
+      let updateLocation = document.querySelector('#result');
+      let confirmBtn = document.getElementById('confirm-btn-container');
+
+      if (response && response.status) {
+        if (response.status === "verified") {
+          Swal.fire({
+            icon: 'success',
+            title: response.message,
+            text: response.action,
+            confirmButtonText: 'เปิด Discord',
+            confirmButtonColor: '#5865F2'
+          })
+            .then(result => {
+              if (result.isConfirmed) {
+                window.open("https://discord.com/channels/1294949467505823755/1356492832210288774", "_blank");
+                setTimeout(() => {
+                  window.location.href = "discord://discord.com/channels/1294949467505823755/1356492832210288774";
+                }, 500);
+              }
+            });
+        }
+
+        else if (response.status === "found_not_verified") {
+          Swal.fire({
+            icon: 'info',
+            title: response.message,
+            text: response.action,
+            confirmButtonColor: '#28a745'
+          });
+
+          updateLocation.innerHTML = response.data;
+          confirmBtn.style.display = 'block';
+          foundStudentData = response;
+        }
+
+        else if (response.status === "not_found" || response.status === "error") {
+          Swal.fire({
+            icon: 'error',
+            title: response.message,
+            text: response.action,
+            confirmButtonColor: '#dc3545'
+          });
+        }
+      }
+
+      else {
+        Swal.fire({
+          icon: 'error',
+          title: 'เกิดข้อผิดพลาดในการประมวลผล',
+          text: 'ข้อมูลที่ได้รับไม่ถูกต้อง',
+          confirmButtonColor: '#dc3545'
+        });
+
+        foundStudentData = null;
+      }
+    }
+
+    function confirmIdentity() {
+      if (!foundStudentData || foundStudentData.status !== "found_not_verified") {
+        Swal.fire({
+          icon: 'error',
+          title: 'เกิดข้อผิดพลาด!',
+          text: 'ไม่สามารถยืนยันตัวตนได้ ข้อมูลไม่สมบูรณ์',
+          confirmButtonColor: '#dc3545'
+        });
+        return;
+      }
+
+      let { id: studentId, fullName, classLevel, room } = foundStudentData;
+
+      Swal.fire({
+        title: 'กำลังยืนยันตัวตน...',
+        text: 'กรุณารอสักครู่',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        html: `
+            <div class="d-flex justify-content-center align-items-center flex-column py-2">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3 mb-0 text-muted">กรุณารอสักครู่</p>
+            </div>
+        `,
+      });
+
+      google.script.run
+        .withSuccessHandler(() => {
+          google.script.run
+            .withSuccessHandler(() => {
+              Swal.fire({
+                icon: 'success',
+                title: 'ยืนยันตัวตนสำเร็จ!',
+                text: 'ตอนนี้คุณสามารถเข้าใช้งาน Discord ได้แล้ว',
+                confirmButtonText: 'เปิด Discord',
+                confirmButtonColor: '#5865F2'
+              })
+                .then(result => {
+                  if (result.isConfirmed) {
+                    window.open("https://discord.com/channels/1294949467505823755/1356492832210288774", "_blank");
+                    setTimeout(() => {
+                      window.location.href = "discord://discord.com/channels/1294949467505823755/1356492832210288774";
+                    }, 500);
+                  }
+                });
+
+              document.getElementById('confirm-btn-container').style.display = 'none';
+              document.querySelector('#result').innerHTML = "";
+              foundStudentData = null;
+              document.querySelector('#id').value = "";
+            })
+            .withFailureHandler(err => {
+              Swal.close();
+              document.body.classList.remove('swal2-shown', 'swal2-height-auto'); // ทำความสะอาด
+              Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถส่งข้อมูลไปยัง Discord: ' + (err.message || err), 'error');
+            })
+            .sendToDiscord(studentId, fullName, classLevel, room);
+        })
+        .withFailureHandler(err => {
+          Swal.close();
+          document.body.classList.remove('swal2-shown', 'swal2-height-auto'); // ทำความสะอาด
+          Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกการยืนยัน: ' + (err.message || err), 'error');
+        })
+        .logVerification(studentId);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadMainPage();
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

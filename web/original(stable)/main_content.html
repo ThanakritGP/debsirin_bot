@@ -1,0 +1,39 @@
+<style>
+  @keyframes fadeInSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+      /* เริ่มจากด้านล่างเล็กน้อย */
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      /* เลื่อนมาที่ตำแหน่งปกติ */
+    }
+  }
+
+  .content-animated {
+    /* หรือชื่อคลาสอื่นที่คุณต้องการ เช่น card-animated */
+    animation-name: fadeInSlideUp;
+    animation-duration: 0.7s;
+    /* ระยะเวลาของแอนิเมชั่น (ปรับได้) */
+    animation-fill-mode: both;
+    /* ให้คงสถานะสุดท้ายของแอนิเมชั่นไว้ */
+    animation-timing-function: ease-in-out;
+    /* รูปแบบการเคลื่อนไหว */
+  }
+</style>
+
+<div class="card p-4 mx-auto text-center content-animated" style="max-width: 400px;">
+  <h2 class="mb-3"><i class="fas fa-search"></i> ค้นหาข้อมูล</h2>
+  <input type="text" id="id" class="form-control mb-3" placeholder="กรอกเลขประจำตัวนักเรียน">
+  <button class="btn btn-custom w-100" onclick="info()">ค้นหา</button>
+</div>
+
+<div id="result" class="mt-4">
+</div>
+
+<div id="confirm-btn-container" style="display: none;">
+  <button class="btn btn-success" onclick="confirmIdentity()">ยืนยันตัวตน</button>
+</div>
