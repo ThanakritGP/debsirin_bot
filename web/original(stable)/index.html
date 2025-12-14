@@ -25,8 +25,6 @@
     }
 
     body {
-      display: flex;
-      flex-direction: column;
       font-family: 'Noto Sans Thai', sans-serif;
       background-color: #f8f9fa;
       color: #000000;
@@ -48,8 +46,9 @@
     }
 
     .main-content-wrapper {
-      flex: 1 0 auto;
-      width: 100%;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     #dynamic-content-area {
@@ -440,10 +439,6 @@
       min-height: 100vh;
     }
 
-    .table-responsive {
-      overflow-x: hidden !important;
-    }
-
     .metric-card {
       display: flex;
       align-items: center;
@@ -740,16 +735,30 @@
     function loadMainPage() {
       showLoadingSweetAlert('ยืนยันตัวตน');
 
+      // 🔁 กลับไปตำแหน่งบนสุดเสมอ
+      window.scrollTo(0, 0);
+
+      // แสดง Navbar + Footer
       document.querySelector('nav.navbar').style.display = '';
       document.querySelector('footer').style.display = '';
+
+      // ออกจากโหมด Admin
       document.body.classList.remove('admin-view');
-      document.getElementById('dynamic-content-area').classList.add('container'); 
+
+      const area = document.getElementById('dynamic-content-area');
+
+      // ⭐⭐⭐ สำคัญมาก: ล้าง style ที่ค้างจาก admin ⭐⭐⭐
+      area.classList.add('container');
+      area.style.padding = '';
+      area.style.margin = '';
 
       google.script.run
         .withSuccessHandler(html => {
-          document.getElementById('dynamic-content-area').innerHTML = html;
+          area.innerHTML = html;
 
+          // reset state
           foundStudentData = null;
+
           const idInput = document.getElementById('id');
           if (idInput) idInput.value = '';
 
@@ -760,7 +769,8 @@
           if (confirmBtnContainer) confirmBtnContainer.style.display = 'none';
 
           Swal.close();
-          document.body.classList.remove('swal2-shown', 'swal2-height-auto'); // ทำความสะอาด SweetAlert Class
+          document.body.classList.remove('swal2-shown', 'swal2-height-auto');
+
           setActiveNavLink('nav-main-page');
 
           initializePlaceholderAnimation('id', ["กรอกเลขประจำตัวนักเรียน"], {
@@ -775,8 +785,12 @@
         })
         .withFailureHandler(error => {
           Swal.close();
-          document.body.classList.remove('swal2-shown', 'swal2-height-auto'); // ทำความสะอาด
-          Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดหน้ายืนยันตัวตนได้: ' + (error.message || error), 'error');
+          document.body.classList.remove('swal2-shown', 'swal2-height-auto');
+          Swal.fire(
+            'เกิดข้อผิดพลาด',
+            'ไม่สามารถโหลดหน้ายืนยันตัวตนได้: ' + (error.message || error),
+            'error'
+          );
         })
         .getMainContent();
     }
@@ -804,6 +818,8 @@
       document.body.classList.remove('swal2-shown', 'swal2-height-auto');
 
       if (response.success) {
+        localStorage.setItem('adminToken', response.token); 
+
         Swal.fire({
           icon: 'success',
           title: 'เข้าสู่ระบบสำเร็จ!',
@@ -844,58 +860,153 @@
       }
     }
 
+    // function loadAdminPage() {
+    //    Swal.close();
+    //   // 1. เปลี่ยนเป็นโหมด Admin
+    //   document.body.classList.add('admin-view');
+    //   document.getElementById('dynamic-content-area').classList.remove('container');
+    //   document.getElementById('dynamic-content-area').style.padding = "0";
+    //   document.getElementById('dynamic-content-area').style.margin = "0";
+
+
+    //   // ⭐⭐ เคลียร์เนื้อหาจากหน้าเก่าออกทันที ⭐⭐
+    //   document.getElementById('dynamic-content-area').innerHTML = `
+    //     <div class="text-center py-5">
+    //       <div class="spinner-border text-primary" role="status"></div>
+    //       <p class="mt-3 text-muted">กำลังโหลดหน้า Admin...</p>
+    //     </div>
+    //   `;
+
+    //   // 2. โหลด Admin Page
+    //   google.script.run
+    //     .withSuccessHandler(html => {
+    //       Swal.close();
+    //       document.body.classList.remove('swal2-shown', 'swal2-height-auto');
+    //       document.getElementById('dynamic-content-area').innerHTML = html;
+
+    //       const scriptElement = document
+    //         .getElementById('dynamic-content-area')
+    //         .querySelector('script');
+
+    //       if (scriptElement) {
+    //         const scriptContent = scriptElement.textContent;
+    //         scriptElement.remove();
+    //         const newScript = document.createElement('script');
+    //         newScript.textContent = scriptContent;
+    //         document.body.appendChild(newScript);
+    //       }
+
+    //       // 🔴🔴🔴 เพิ่มตรงนี้ 🔴🔴🔴
+    //       if (typeof loadAllStudentsTable === 'function') {
+    //         loadAllStudentsTable();
+    //       }
+
+    //       if (typeof loadMetrics === 'function') {
+    //         loadMetrics();
+    //       }
+    //     })
+    //     .withFailureHandler(error => {
+    //       Swal.close();
+    //       document.body.classList.remove('swal2-shown', 'swal2-height-auto');
+    //       Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดหน้า Admin ได้: ' + (error.message || error), 'error');
+
+    //       document.body.classList.remove('admin-view');
+    //       document.getElementById('dynamic-content-area').classList.add('container');
+    //     })
+    //     .getAdminPage();
+    // }
+
     function loadAdminPage() {
-       Swal.close();
-      // 1. เปลี่ยนเป็นโหมด Admin
+      Swal.close();
+      
+      // 1. เตรียมโหมด Admin View
       document.body.classList.add('admin-view');
       document.getElementById('dynamic-content-area').classList.remove('container');
       document.getElementById('dynamic-content-area').style.padding = "0";
       document.getElementById('dynamic-content-area').style.margin = "0";
 
+      const token = localStorage.getItem('adminToken');
+      const dynamicArea = document.getElementById('dynamic-content-area');
 
-      // ⭐⭐ เคลียร์เนื้อหาจากหน้าเก่าออกทันที ⭐⭐
-      document.getElementById('dynamic-content-area').innerHTML = `
-        <div class="text-center py-5">
-          <div class="spinner-border text-primary" role="status"></div>
-          <p class="mt-3 text-muted">กำลังโหลดหน้า Admin...</p>
-        </div>
+      // 2. แสดง Loading Screen ทันที
+      dynamicArea.innerHTML = `
+          <div class="login-full-page d-flex justify-content-center align-items-center">
+              <div class="text-center">
+                  <div class="spinner-border text-primary" role="status"></div>
+                  <p class="mt-3 text-muted">กำลังตรวจสอบสิทธิ์ Admin...</p>
+              </div>
+          </div>
       `;
 
-      // 2. โหลด Admin Page
+      if (token) {
+          google.script.run
+              .withSuccessHandler(r => {
+                  if (r.success) {
+                      loadAdminContent(r.name, true); 
+                  } else {
+                      localStorage.removeItem('adminToken');
+                      loadAdminContent(null, false); 
+                      Swal.fire('เซสชันหมดอายุ', 'กรุณาเข้าสู่ระบบอีกครั้ง', 'warning');
+                  }
+              })
+              .withFailureHandler(err => {
+                  loadAdminContent(null, false); 
+                  Swal.fire('Server Error', 'ไม่สามารถตรวจสอบสิทธิ์ได้: ' + (err.message || err), 'error');
+              })
+              .checkAdminToken(token);
+              
+      } else {
+          loadAdminContent(null, false);
+      }
+    }
+
+    function loadAdminContent(adminName, showDashboard) {
+      const oldAdminScript = document.querySelector('script[data-admin-script]');
+      if (oldAdminScript) oldAdminScript.remove();
+
       google.script.run
-        .withSuccessHandler(html => {
+        .withSuccessHandler(adminHtml => {
           Swal.close();
           document.body.classList.remove('swal2-shown', 'swal2-height-auto');
-          document.getElementById('dynamic-content-area').innerHTML = html;
 
-          const scriptElement = document
-            .getElementById('dynamic-content-area')
-            .querySelector('script');
+          const dynamicArea = document.getElementById('dynamic-content-area');
+          dynamicArea.innerHTML = adminHtml;
 
-          if (scriptElement) {
-            const scriptContent = scriptElement.textContent;
-            scriptElement.remove();
+          // inject script จาก admin_page.html
+          const scriptEl = dynamicArea.querySelector('script');
+          if (scriptEl) {
             const newScript = document.createElement('script');
-            newScript.textContent = scriptContent;
+            newScript.textContent = scriptEl.textContent;
+            newScript.setAttribute('data-admin-script', 'true');
+            scriptEl.remove();
             document.body.appendChild(newScript);
           }
 
-          // 🔴🔴🔴 เพิ่มตรงนี้ 🔴🔴🔴
-          if (typeof loadAllStudentsTable === 'function') {
-            loadAllStudentsTable();
+          const loginSection = document.getElementById('login-section');
+          const dashboardSection = document.getElementById('dashboard-section');
+
+          // ⭐ จุดตัดสินใจเดียว (Single source of truth)
+          if (loginSection && dashboardSection) {
+            loginSection.style.display = showDashboard ? 'none' : 'flex';
+            dashboardSection.style.display = showDashboard ? 'block' : 'none';
           }
 
-          if (typeof loadMetrics === 'function') {
-            loadMetrics();
+          if (showDashboard) {
+            if (typeof updateAdminTopbar === 'function') {
+              updateAdminTopbar(adminName || 'ผู้ดูแลระบบ');
+            }
+            if (typeof loadMetrics === 'function') loadMetrics();
+            if (typeof loadAllStudentsTable === 'function') loadAllStudentsTable();
           }
         })
         .withFailureHandler(error => {
           Swal.close();
-          document.body.classList.remove('swal2-shown', 'swal2-height-auto');
-          Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดหน้า Admin ได้: ' + (error.message || error), 'error');
-
-          document.body.classList.remove('admin-view');
-          document.getElementById('dynamic-content-area').classList.add('container');
+          loadMainPage();
+          Swal.fire(
+            'เกิดข้อผิดพลาด',
+            'ไม่สามารถโหลดหน้า Admin ได้: ' + (error.message || error),
+            'error'
+          );
         })
         .getAdminPage();
     }

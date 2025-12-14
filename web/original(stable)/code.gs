@@ -6,11 +6,22 @@
 
 const VERIFY_SHEET_NAME = "verify"; 
 const TEMPLATE_SHEET_IDENTIFIER = "TEMPLATE"; 
+
+const ADMIN_USERS_SHEET = "admin_users"; 
+const TOKEN_SECRET = "DSSC68_01";
+const SPREADSHEET_ID = "1XlfEN7lHfuCVJYRL7HMSEH98AkQmUutBD7DSphmLTWw";
 // หมายเหตุ: ตัวแปร ALL_STUDENT_SHEET_NAMES ถูกลบออกแล้ว ตามคำขอให้วนลูปหาทุกชีต
 
 // ===================================================
 // CLIENT FUNCTIONS (FRONTEND)
 // ===================================================
+
+function revokeAdminToken(token) {
+  if (!token) return;
+
+  const SCRIPT_PROPS = PropertiesService.getScriptProperties();
+  SCRIPT_PROPS.deleteProperty(`admin_token_${token}`);
+}
 
 function doGet() {
   return HtmlService.createTemplateFromFile('index') // Serve the main shell
@@ -31,7 +42,7 @@ function getHowToContent() {
 
 function submitData(studentIdFromClient) {
   const studentId = String(studentIdFromClient).trim();
-  const spreadsheetId = "1XlfEN7lHfuCVJYRL7HMSEH98AkQmUutBD7DSphmLTWw"; 
+  const spreadsheetId = SPREADSHEET_ID; 
 
   try {
     const ss = SpreadsheetApp.openById(spreadsheetId);
@@ -207,7 +218,7 @@ function createSearchDataTable(data, headers, isVerified) {
 }
 
 function getAdminMetrics() {
-    const spreadsheetId = "1XlfEN7lHfuCVJYRL7HMSEH98AkQmUutBD7DSphmLTWw";
+    const spreadsheetId = SPREADSHEET_ID;
     let totalStudents = 0;
     let verifiedStudents = 0;
 
@@ -254,13 +265,12 @@ function getAdminMetrics() {
     }
 }
 
-const ADMIN_USERS_SHEET = "admin_users"; 
-
 /**
  * 1. ตรวจสอบสิทธิ์ผู้ดูแลระบบจากชีต admin_users
  */
 function checkAdminCredentials(username, password) {
-  const spreadsheetId = "1XlfEN7lHfuCVJYRL7HMSEH98AkQmUutBD7DSphmLTWw"; 
+  const spreadsheetId = SPREADSHEET_ID; 
+  const SCRIPT_PROPS = PropertiesService.getScriptProperties();
 
   try {
     const ss = SpreadsheetApp.openById(spreadsheetId);
@@ -283,9 +293,23 @@ function checkAdminCredentials(username, password) {
       ) {
         const adminName = row[2] ? String(row[2]).trim() : "ผู้ดูแลระบบ";
 
+        // ⭐ START: การสร้าง Token ที่มีวันหมดอายุ 7 วัน ⭐
+        const token = Utilities.getUuid(); // สร้าง Token แบบสุ่ม (UUID)
+        
+        // กำหนดวันหมดอายุ: 7 วัน (7 * 24 * 60 * 60 * 1000 มิลลิวินาที)
+        const EXPIRY_TIME = Date.now() + (7 * 24 * 60 * 60 * 1000); 
+        
+        // บันทึก Key: admin_token_UUID, Value: username|expiry_timestamp
+        SCRIPT_PROPS.setProperty(
+          `admin_token_${token}`, 
+          `${username}|${EXPIRY_TIME}` 
+        );
+        // ⭐ END: การสร้าง Token ที่มีวันหมดอายุ 7 วัน ⭐
+
         return {
           success: true,
-          name: adminName   // 👈 ส่งชื่อกลับไป
+          name: adminName,
+          token: token
         };
       }
     }
@@ -299,7 +323,7 @@ function checkAdminCredentials(username, password) {
 }
 
 function getAdminPage() {
-  const spreadsheetId = "1XlfEN7lHfuCVJYRL7HMSEH98AkQmUutBD7DSphmLTWw";
+  const spreadsheetId = SPREADSHEET_ID;
   const ss = SpreadsheetApp.openById(spreadsheetId);
   const allSheets = ss.getSheets();
   
@@ -323,7 +347,7 @@ function getAdminPage() {
  * ดึงข้อมูลนักเรียนทั้งหมดจากทุกชีต (แก้ไขให้เริ่มอ่านจากแถวที่ 6)
  */
 function getAllStudentData() {
-    const spreadsheetId = "1XlfEN7lHfuCVJYRL7HMSEH98AkQmUutBD7DSphmLTWw";
+    const spreadsheetId = SPREADSHEET_ID;
     let allStudentData = [];
     
     // Index ในชีตย่อย (A, B, C, D, E) - คงค่าเดิมตามโครงสร้างข้อมูล
@@ -414,6 +438,73 @@ function getAllStudentData() {
     }
 }
 
+function checkAdminToken(token) {
+  if (!token) {
+    return { success: false, message: "Token is missing." };
+  }
+  
+  const SCRIPT_PROPS = PropertiesService.getScriptProperties(); 
+
+  try {
+    // 1. ดึงข้อมูล Token จาก Properties Service
+    const tokenData = SCRIPT_PROPS.getProperty(`admin_token_${token}`); 
+
+    if (!tokenData) {
+      return { success: false, message: "Token ไม่ถูกต้องหรือไม่พบในระบบ" };
+    }
+    
+    // tokenData คือ "username|expiry_timestamp"
+    const parts = tokenData.split('|');
+    const username = parts[0];
+    const expiryTimestamp = parseInt(parts[1], 10);
+    const currentTime = Date.now();
+
+    // 2. ตรวจสอบวันหมดอายุ (สำคัญ)
+    if (currentTime > expiryTimestamp) {
+      // หมดอายุ: ลบ Token ทิ้ง
+      SCRIPT_PROPS.deleteProperty(`admin_token_${token}`);
+      return { success: false, message: "เซสชันหมดอายุ" };
+    }
+    
+    // 3. ตรวจสอบ Username ใน Google Sheet ว่ายังมีสิทธิ์อยู่จริงหรือไม่
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(ADMIN_USERS_SHEET);
+    
+    if (!sheet) {
+      return { success: false, message: "Admin configuration sheet missing." };
+    }
+
+    const data = sheet.getDataRange().getValues(); 
+    let adminName = "ผู้ดูแลระบบ";
+    let userFound = false;
+
+    // Col Index: 0=Username, 1=Password, 2=Name
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      if (row[0] && String(row[0]).trim() === username) {
+        adminName = row[2] ? String(row[2]).trim() : "ผู้ดูแลระบบ";
+        userFound = true;
+        break;
+      }
+    }
+    
+    if (!userFound) {
+       SCRIPT_PROPS.deleteProperty(`admin_token_${token}`); 
+       return { success: false, message: "User associated with token no longer exists." };
+    }
+
+    // 4. Token ถูกต้องและผู้ใช้ยังมีสิทธิ์
+    return {
+      success: true,
+      name: adminName,
+      username: username
+    };
+
+  } catch (e) {
+    Logger.log("Error in checkAdminToken: " + e.message);
+    return { success: false, message: "Server error during token validation: " + e.message };
+  }
+}
 
 /**
  * Helper function สำหรับสร้างตารางแสดงผลรายการนักเรียนทั้งหมด

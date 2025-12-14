@@ -32,9 +32,16 @@
       <i class="fas fa-user-circle me-2"></i>
       <span id="admin-welcome-text">ยินดีต้อนรับ</span>
     </div>
-    <button class="btn btn-outline-danger btn-sm" onclick="logoutAdmin()">
-      <i class="fas fa-sign-out-alt me-1"></i> ออกจากระบบ
-    </button>
+    
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-danger btn-sm" onclick="goBackToMain()">
+        <i class="fas fa-home me-1"></i> กลับไปหน้าหลัก
+      </button>
+
+      <button class="btn btn-outline-danger btn-sm" onclick="logoutAdmin()">
+        <i class="fas fa-sign-out-alt me-1"></i> ออกจากระบบ
+      </button>
+    </div>
   </div>
 
   <div class="container-fluid py-4">
@@ -128,7 +135,7 @@ function loadAllStudentsTable() {
         $('#studentsTable').DataTable().destroy();
       }
 
-      $('#studentsTable').DataTable({
+      const table = $('#studentsTable').DataTable({
         data: r.data,
         columns: r.headers.map(h => ({ title: h })),
         pageLength: 10,
@@ -152,8 +159,14 @@ function loadAllStudentsTable() {
             i
             p
           >
-        `
+        `,
+        responsive: true,
+        autoWidth: false
       });
+
+        setTimeout(() => {
+        table.columns.adjust().draw(false);
+      }, 150);
     })
     .getAllStudentData();
 }
@@ -198,25 +211,53 @@ function updateAdminTopbar(name) {
 }
 
 function logoutAdmin() {
-  // 1. ทำลาย DataTable ถ้ามี
-  if ($.fn.DataTable.isDataTable('#studentsTable')) {
-    $('#studentsTable').DataTable().destroy();
+
+  const token = localStorage.getItem('adminToken'); // ✅ แก้ตรงนี้
+
+  if (token) {
+    google.script.run.revokeAdminToken(token);
   }
 
-  // 2. reset flag
+  // 🔥 ลบ token ตัวจริง
+  localStorage.removeItem('adminToken');
+  sessionStorage.removeItem('adminToken');
+
+  // 🔥 reset state
   window.__ADMIN_METRICS_LOADED__ = false;
 
-  // 3. ล้างโหมด Admin
+  // ออกจาก admin view
   document.body.classList.remove('admin-view');
 
-  // 4. ล้างหน้า Admin ออกทั้งหมด
   const area = document.getElementById('dynamic-content-area');
   area.innerHTML = '';
-  area.classList.add('container');
-  area.style.padding = '';
-  area.style.margin = '';
+  area.className = 'container';
 
-  // 5. กลับหน้า Main Page จริง ๆ
   loadMainPage();
+}
+
+function resetAdminUI() {
+  // 1. Destroy DataTable
+  if ($.fn.DataTable.isDataTable('#studentsTable')) {
+    $('#studentsTable').DataTable().destroy();
+    $('#studentsTable').empty();
+  }
+
+  // 2. Reset flag
+  window.__ADMIN_METRICS_LOADED__ = false;
+
+  // 3. ลบ class admin ทั้งหมด
+  document.body.classList.remove('admin-view');
+
+  // 4. ลบเนื้อหา admin ออกจาก DOM
+  const adminSection = document.getElementById('dashboard-section');
+  if (adminSection) adminSection.remove();
+
+  const loginSection = document.getElementById('login-section');
+  if (loginSection) loginSection.remove();
+}
+
+function goBackToMain() {
+  resetAdminUI();   // ⭐ สำคัญที่สุด
+  loadMainPage();   // โหลด main ใหม่แบบ clean
 }
 </script>
